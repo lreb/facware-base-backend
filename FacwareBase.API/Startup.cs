@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using FacwareBase.Api.Extensions.HealthCheck;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using HealthChecks.UI.Client;
+using Serilog;
 
 namespace FacwareBase.API
 {
@@ -77,7 +78,9 @@ namespace FacwareBase.API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            // Cors pipe
             app.UseCors(CorsExtension.QSSAllowSpecificOrigins);
+            
 	        if (env.IsLocal())
             {
                 app.UseDeveloperExceptionPage();
@@ -105,6 +108,9 @@ namespace FacwareBase.API
             });
             
             app.UseHttpsRedirection();
+
+            // Serilog pipe
+            app.UseSerilogRequestLogging();
 
             app.UseRouting();
 
