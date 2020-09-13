@@ -18,6 +18,7 @@ namespace FacwareBase.API.Controllers
 
         private readonly ILogger<WeatherForecastController> _logger;
 
+
         public WeatherForecastController(ILogger<WeatherForecastController> logger)
         {
             _logger = logger;
@@ -27,6 +28,12 @@ namespace FacwareBase.API.Controllers
         public IEnumerable<WeatherForecast> Get()
         {
             var rng = new Random();
+            _logger.LogInformation("Information");
+            _logger.LogTrace("Trace");
+            _logger.LogDebug("Debug");
+            _logger.LogWarning("Warning");
+            _logger.LogError("Error");
+            _logger.LogCritical("Critical");
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateTime.Now.AddDays(index),

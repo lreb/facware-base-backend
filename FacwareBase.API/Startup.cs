@@ -20,6 +20,9 @@ using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using FacwareBase.Api.Extensions.HealthCheck;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using HealthChecks.UI.Client;
+using Serilog;
+using Microsoft.AspNet.OData.Extensions;
+using FacwareBase.Api.Extensions.OData;
 
 namespace FacwareBase.API
 {
@@ -56,7 +59,10 @@ namespace FacwareBase.API
 
             services.AddHealthChecks();
 
-            services.AddMvc()
+            services.AddMvc(Options=>
+            {
+                Options.EnableEndpointRouting = false;
+            })
             .AddNewtonsoftJson(options => 
             { 
                 options.SerializerSettings.ContractResolver  = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver();
@@ -69,15 +75,22 @@ namespace FacwareBase.API
 
             // TODO: before use this, create your own dbcontext
             // services.UsePostgreSqlServer(_connectionString.Value.ApplicationConfigurationConnectionString);
+
+            // in memory db
+            services.UseInMemoryDatabase();
             
             services.AddHealthChecks()
 	            .AddCheck<CustomHealthCheckExtension>("custom");
+
+            services.AddOData();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            // Cors pipe
             app.UseCors(CorsExtension.QSSAllowSpecificOrigins);
+
 	        if (env.IsLocal())
             {
                 app.UseDeveloperExceptionPage();
@@ -106,6 +119,9 @@ namespace FacwareBase.API
             
             app.UseHttpsRedirection();
 
+            // Serilog pipe
+            app.UseSerilogRequestLogging();
+
             app.UseRouting();
 
             app.UseAuthorization();
@@ -115,6 +131,13 @@ namespace FacwareBase.API
                 endpoints.MapHealthChecks("/health");
 
                 endpoints.MapControllers();
+            });
+
+            app.UseMvc(build =>
+            {
+                // EnableQuery attribute enables an endpoint to have OData capabilities.
+                build.Select().Expand().Count().Filter().OrderBy().MaxTop(100).SkipToken().Build();
+                build.MapODataServiceRoute("odata","odata", app.GetODataModels());
             });
         }
     }
