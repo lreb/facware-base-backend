@@ -23,6 +23,9 @@ using HealthChecks.UI.Client;
 using Serilog;
 using Microsoft.AspNet.OData.Extensions;
 using FacwareBase.Api.Extensions.OData;
+using Microsoft.AspNet.OData.Formatter;
+using Microsoft.Net.Http.Headers;
+using Microsoft.OpenApi.Models;
 
 namespace FacwareBase.API
 {
@@ -83,6 +86,19 @@ namespace FacwareBase.API
 	            .AddCheck<CustomHealthCheckExtension>("custom");
 
             services.AddOData();
+
+            // OData Workaround: https://github.com/OData/WebApi/issues/1177
+            services.AddMvcCore(options =>
+            {
+                foreach (var outputFormatter in options.OutputFormatters.OfType<ODataOutputFormatter>().Where(_ => _.SupportedMediaTypes.Count == 0))
+                {
+                    outputFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/prs.odatatestxx-odata"));
+                }
+                foreach (var inputFormatter in options.InputFormatters.OfType<ODataInputFormatter>().Where(_ => _.SupportedMediaTypes.Count == 0))
+                {
+                    inputFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/prs.odatatestxx-odata"));
+                }
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -4,6 +4,7 @@ using System;
 using System.IO;
 using System.Reflection;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.OpenApi.Models;
 
 namespace FacwareBase.Api.Extensions.Swagger
 {
@@ -22,7 +23,7 @@ namespace FacwareBase.Api.Extensions.Swagger
 		{
 			services.AddSwaggerGen(c =>
 			{
-				c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+				c.SwaggerDoc("v1", new OpenApiInfo
 				{
 					Title = config["SwaggerConfiguration:Title"], 
 					Version = config["SwaggerConfiguration:Version"],

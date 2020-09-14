@@ -27,6 +27,10 @@ namespace FacwareBase.API.Controllers
             return Ok(albums);
         }
 
+        /// <summary>
+        /// Demo
+        /// </summary>
+        /// <returns>album</returns>
         [EnableQuery]
         public IActionResult Get(int key)
         {
