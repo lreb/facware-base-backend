@@ -24,6 +24,10 @@ namespace FacwareBase.API.Controllers
             _logger = logger;
         }
 
+        /// <summary>
+        /// demo 0
+        /// </summary>
+        /// <returns>0</returns>
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {

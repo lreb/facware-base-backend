@@ -2,7 +2,6 @@ using System.Data;
 using FacwareBase.API.Helpers.Domain.POCO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-// using QSS.DataAccess.DataContext;
 
 namespace FacwareBase.Api.Extensions
 {
@@ -19,8 +18,9 @@ namespace FacwareBase.Api.Extensions
         public static void UseInMemoryDatabase(this IServiceCollection serviceCollection)
         {
           // TODO: use your context
-          serviceCollection.AddDbContext<MusicContext>(opts => opts.UseInMemoryDatabase("AlbumsDB"));
-          // https://medium.com/@sddkal/using-odata-controller-in-net-core-apis-63b688585eaf
+          serviceCollection.AddDbContext<MusicContext>(opts => 
+            opts.UseInMemoryDatabase("AlbumsDB")
+            .EnableSensitiveDataLogging());
         }
 
         /// <summary>
