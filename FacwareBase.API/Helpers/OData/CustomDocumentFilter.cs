@@ -1,7 +1,7 @@
-https://github.com/microsoft/aspnet-api-versioning/issues/365
-https://github.com/domaindrivendev/Swashbuckle.AspNetCore#additional-packages
-https://github.com/nycdanielp/swashbuckle-custom-odata/blob/master/CustomDocumentFilter.cs
-https://github.com/rbeauchamp/Swashbuckle.OData
+// https://github.com/microsoft/aspnet-api-versioning/issues/365
+// https://github.com/domaindrivendev/Swashbuckle.AspNetCore#additional-packages
+// https://github.com/nycdanielp/swashbuckle-custom-odata/blob/master/CustomDocumentFilter.cs
+// https://github.com/rbeauchamp/Swashbuckle.OData
 
 
 // using Swashbuckle.AspNetCore.Swagger;

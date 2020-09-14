@@ -26,6 +26,7 @@ using FacwareBase.Api.Extensions.OData;
 using Microsoft.AspNet.OData.Formatter;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
+using FacwareBase.API.Helpers.OData;
 
 namespace FacwareBase.API
 {
@@ -99,6 +100,9 @@ namespace FacwareBase.API
                     inputFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/prs.odatatestxx-odata"));
                 }
             });
+
+            services.AddScoped<CustomEnableQueryAttribute>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

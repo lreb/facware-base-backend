@@ -18,7 +18,9 @@ namespace FacwareBase.Api.Extensions
         public static void UseInMemoryDatabase(this IServiceCollection serviceCollection)
         {
           // TODO: use your context
-          serviceCollection.AddDbContext<MusicContext>(opts => opts.UseInMemoryDatabase("AlbumsDB"));
+          serviceCollection.AddDbContext<MusicContext>(opts => 
+            opts.UseInMemoryDatabase("AlbumsDB")
+            .EnableSensitiveDataLogging());
         }
 
         /// <summary>
