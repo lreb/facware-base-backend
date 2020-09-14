@@ -1,0 +1,215 @@
+2020-09-13 21:00:21.158 -06:00 [INF] Staring up
+2020-09-13 21:00:35.427 -06:00 [INF] User profile is available. Using '/Users/developer/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2020-09-13 21:00:36.470 -06:00 [INF] Creating key {f81b23cc-1af8-490d-a278-9ccec8eec8fb} with creation date 2020-09-14 03:00:36Z, activation date 2020-09-14 03:00:35Z, and expiration date 2020-12-13 03:00:35Z.
+2020-09-13 21:00:36.479 -06:00 [WRN] No XML encryptor configured. Key {f81b23cc-1af8-490d-a278-9ccec8eec8fb} may be persisted to storage in unencrypted form.
+2020-09-13 21:00:36.482 -06:00 [INF] Writing data to file '/Users/developer/.aspnet/DataProtection-Keys/key-f81b23cc-1af8-490d-a278-9ccec8eec8fb.xml'.
+2020-09-13 21:00:39.574 -06:00 [INF] Now listening on: https://localhost:5001
+2020-09-13 21:00:39.575 -06:00 [INF] Now listening on: http://localhost:5000
+2020-09-13 21:00:39.575 -06:00 [INF] Application started. Press Ctrl+C to shut down.
+2020-09-13 21:00:39.575 -06:00 [INF] Hosting environment: Local
+2020-09-13 21:00:39.576 -06:00 [INF] Content root path: /Users/developer/Documents/projects/github/facware-base-backend/FacwareBase.API
+2020-09-13 21:01:40.971 -06:00 [ERR] The ASP.NET Core developer certificate is in an invalid state. To fix this issue, run the following commands 'dotnet dev-certs https --clean' and 'dotnet dev-certs https' to remove all existing ASP.NET Core development certificates and create a new untrusted developer certificate. On macOS or Windows, use 'dotnet dev-certs https --trust' to trust the new certificate.
+System.Security.Authentication.AuthenticationException: Authentication failed, see inner exception.
+ ---> Interop+AppleCrypto+SslException: Internal error
+   --- End of inner exception stack trace ---
+   at System.Net.Security.SslStream.StartSendAuthResetSignal(ProtocolToken message, AsyncProtocolRequest asyncRequest, ExceptionDispatchInfo exception)
+   at System.Net.Security.SslStream.CheckCompletionBeforeNextReceive(ProtocolToken message, AsyncProtocolRequest asyncRequest)
+   at System.Net.Security.SslStream.StartSendBlob(Byte[] incoming, Int32 count, AsyncProtocolRequest asyncRequest)
+   at System.Net.Security.SslStream.ProcessReceivedBlob(Byte[] buffer, Int32 count, AsyncProtocolRequest asyncRequest)
+   at System.Net.Security.SslStream.StartReadFrame(Byte[] buffer, Int32 readBytes, AsyncProtocolRequest asyncRequest)
+   at System.Net.Security.SslStream.StartReceiveBlob(Byte[] buffer, AsyncProtocolRequest asyncRequest)
+   at System.Net.Security.SslStream.ForceAuthentication(Boolean receiveFirst, Byte[] buffer, AsyncProtocolRequest asyncRequest)
+   at System.Net.Security.SslStream.ProcessAuthentication(LazyAsyncResult lazyResult, CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.BeginAuthenticateAsServer(SslServerAuthenticationOptions sslServerAuthenticationOptions, CancellationToken cancellationToken, AsyncCallback asyncCallback, Object asyncState)
+   at System.Net.Security.SslStream.<>c.<AuthenticateAsServerAsync>b__69_0(SslServerAuthenticationOptions arg1, CancellationToken arg2, AsyncCallback callback, Object state)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncImpl[TArg1,TArg2](Func`5 beginMethod, Func`2 endFunction, Action`1 endAction, TArg1 arg1, TArg2 arg2, Object state, TaskCreationOptions creationOptions)
+   at System.Threading.Tasks.TaskFactory.FromAsync[TArg1,TArg2](Func`5 beginMethod, Action`1 endMethod, TArg1 arg1, TArg2 arg2, Object state, TaskCreationOptions creationOptions)
+   at System.Threading.Tasks.TaskFactory.FromAsync[TArg1,TArg2](Func`5 beginMethod, Action`1 endMethod, TArg1 arg1, TArg2 arg2, Object state)
+   at System.Net.Security.SslStream.AuthenticateAsServerAsync(SslServerAuthenticationOptions sslServerAuthenticationOptions, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Https.Internal.HttpsConnectionMiddleware.InnerOnConnectionAsync(ConnectionContext context)
+2020-09-13 21:01:40.971 -06:00 [ERR] The ASP.NET Core developer certificate is in an invalid state. To fix this issue, run the following commands 'dotnet dev-certs https --clean' and 'dotnet dev-certs https' to remove all existing ASP.NET Core development certificates and create a new untrusted developer certificate. On macOS or Windows, use 'dotnet dev-certs https --trust' to trust the new certificate.
+System.Security.Authentication.AuthenticationException: Authentication failed, see inner exception.
+ ---> Interop+AppleCrypto+SslException: Internal error
+   --- End of inner exception stack trace ---
+   at System.Net.Security.SslStream.StartSendAuthResetSignal(ProtocolToken message, AsyncProtocolRequest asyncRequest, ExceptionDispatchInfo exception)
+   at System.Net.Security.SslStream.CheckCompletionBeforeNextReceive(ProtocolToken message, AsyncProtocolRequest asyncRequest)
+   at System.Net.Security.SslStream.StartSendBlob(Byte[] incoming, Int32 count, AsyncProtocolRequest asyncRequest)
+   at System.Net.Security.SslStream.ProcessReceivedBlob(Byte[] buffer, Int32 count, AsyncProtocolRequest asyncRequest)
+   at System.Net.Security.SslStream.StartReadFrame(Byte[] buffer, Int32 readBytes, AsyncProtocolRequest asyncRequest)
+   at System.Net.Security.SslStream.StartReceiveBlob(Byte[] buffer, AsyncProtocolRequest asyncRequest)
+   at System.Net.Security.SslStream.ForceAuthentication(Boolean receiveFirst, Byte[] buffer, AsyncProtocolRequest asyncRequest)
+   at System.Net.Security.SslStream.ProcessAuthentication(LazyAsyncResult lazyResult, CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.BeginAuthenticateAsServer(SslServerAuthenticationOptions sslServerAuthenticationOptions, CancellationToken cancellationToken, AsyncCallback asyncCallback, Object asyncState)
+   at System.Net.Security.SslStream.<>c.<AuthenticateAsServerAsync>b__69_0(SslServerAuthenticationOptions arg1, CancellationToken arg2, AsyncCallback callback, Object state)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncImpl[TArg1,TArg2](Func`5 beginMethod, Func`2 endFunction, Action`1 endAction, TArg1 arg1, TArg2 arg2, Object state, TaskCreationOptions creationOptions)
+   at System.Threading.Tasks.TaskFactory.FromAsync[TArg1,TArg2](Func`5 beginMethod, Action`1 endMethod, TArg1 arg1, TArg2 arg2, Object state, TaskCreationOptions creationOptions)
+   at System.Threading.Tasks.TaskFactory.FromAsync[TArg1,TArg2](Func`5 beginMethod, Action`1 endMethod, TArg1 arg1, TArg2 arg2, Object state)
+   at System.Net.Security.SslStream.AuthenticateAsServerAsync(SslServerAuthenticationOptions sslServerAuthenticationOptions, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Https.Internal.HttpsConnectionMiddleware.InnerOnConnectionAsync(ConnectionContext context)
+2020-09-13 21:02:14.969 -06:00 [INF] Application is shutting down...
+2020-09-13 21:04:37.820 -06:00 [INF] Staring up
+2020-09-13 21:04:38.500 -06:00 [INF] User profile is available. Using '/Users/developer/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2020-09-13 21:04:39.304 -06:00 [INF] Now listening on: https://localhost:5001
+2020-09-13 21:04:39.304 -06:00 [INF] Now listening on: http://localhost:5000
+2020-09-13 21:04:39.305 -06:00 [INF] Application started. Press Ctrl+C to shut down.
+2020-09-13 21:04:39.305 -06:00 [INF] Hosting environment: Local
+2020-09-13 21:04:39.306 -06:00 [INF] Content root path: /Users/developer/Documents/projects/github/facware-base-backend/FacwareBase.API
+2020-09-13 21:04:55.103 -06:00 [INF] Request starting HTTP/1.1 GET https://localhost:5001/  
+2020-09-13 21:04:55.807 -06:00 [INF] Request finished in 707.6493ms 301 
+2020-09-13 21:04:56.130 -06:00 [INF] Request starting HTTP/1.1 GET https://localhost:5001/index.html  
+2020-09-13 21:04:56.180 -06:00 [INF] Request finished in 49.343ms 200 text/html;charset=utf-8
+2020-09-13 21:04:56.268 -06:00 [INF] Request starting HTTP/1.1 GET https://localhost:5001/swagger-ui.css  
+2020-09-13 21:04:56.268 -06:00 [INF] Request starting HTTP/1.1 GET https://localhost:5001/swagger-ui-bundle.js  
+2020-09-13 21:04:56.347 -06:00 [INF] Request starting HTTP/1.1 GET https://localhost:5001/swagger-ui-standalone-preset.js  
+2020-09-13 21:04:56.531 -06:00 [INF] Sending file. Request path: '/swagger-ui-standalone-preset.js'. Physical path: 'N/A'
+2020-09-13 21:04:56.531 -06:00 [INF] Sending file. Request path: '/swagger-ui.css'. Physical path: 'N/A'
+2020-09-13 21:04:56.536 -06:00 [INF] Request finished in 188.9938ms 200 application/javascript
+2020-09-13 21:04:56.536 -06:00 [INF] Request finished in 267.5696ms 200 text/css
+2020-09-13 21:04:56.581 -06:00 [INF] Sending file. Request path: '/swagger-ui-bundle.js'. Physical path: 'N/A'
+2020-09-13 21:04:56.582 -06:00 [INF] Request finished in 313.9436ms 200 application/javascript
+2020-09-13 21:04:57.296 -06:00 [INF] Request starting HTTP/1.1 GET https://localhost:5001/swagger/v1/swagger.json  
+2020-09-13 21:04:57.315 -06:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: No media types found in 'Microsoft.AspNet.OData.Formatter.ODataOutputFormatter.SupportedMediaTypes'. Add at least one media type to the list of supported media types.
+   at Microsoft.AspNetCore.Mvc.Formatters.OutputFormatter.GetSupportedContentTypes(String contentType, Type objectType)
+   at Microsoft.AspNetCore.Mvc.ApiExplorer.ApiResponseTypeProvider.CalculateResponseFormats(ICollection`1 responseTypes, MediaTypeCollection declaredContentTypes)
+   at Microsoft.AspNetCore.Mvc.ApiExplorer.ApiResponseTypeProvider.GetApiResponseTypes(IReadOnlyList`1 responseMetadataAttributes, Type type, Type defaultErrorType)
+   at Microsoft.AspNetCore.Mvc.ApiExplorer.ApiResponseTypeProvider.GetApiResponseTypes(ControllerActionDescriptor action)
+   at Microsoft.AspNetCore.Mvc.ApiExplorer.DefaultApiDescriptionProvider.CreateApiDescription(ControllerActionDescriptor action, String httpMethod, String groupName)
+   at Microsoft.AspNetCore.Mvc.ApiExplorer.DefaultApiDescriptionProvider.OnProvidersExecuting(ApiDescriptionProviderContext context)
+   at Microsoft.AspNetCore.Mvc.ApiExplorer.ApiDescriptionGroupCollectionProvider.GetCollection(ActionDescriptorCollection actionDescriptors)
+   at Microsoft.AspNetCore.Mvc.ApiExplorer.ApiDescriptionGroupCollectionProvider.get_ApiDescriptionGroups()
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GetSwagger(String documentName, String host, String basePath)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2020-09-13 21:04:57.348 -06:00 [INF] Request finished in 54.0957ms 500 text/plain
+2020-09-13 21:04:57.527 -06:00 [INF] Request starting HTTP/1.1 GET https://localhost:5001/favicon-32x32.png  
+2020-09-13 21:04:57.530 -06:00 [INF] Sending file. Request path: '/favicon-32x32.png'. Physical path: 'N/A'
+2020-09-13 21:04:57.532 -06:00 [INF] Request finished in 4.7985ms 200 image/png
+2020-09-13 21:05:36.054 -06:00 [INF] Request starting HTTP/1.1 GET https://localhost:5001/checkout  
+2020-09-13 21:05:36.141 -06:00 [INF] HTTP GET /checkout responded 404 in 79.6514 ms
+2020-09-13 21:05:36.144 -06:00 [INF] Request finished in 90.2171ms 404 
+2020-09-13 21:05:42.594 -06:00 [INF] Request starting HTTP/1.1 GET https://localhost:5001/healthcheck  
+2020-09-13 21:05:42.655 -06:00 [INF] Request finished in 59.8809ms 200 application/json
+2020-09-13 21:05:42.861 -06:00 [INF] Request starting HTTP/1.1 GET https://localhost:5001/favicon.ico  
+2020-09-13 21:05:42.865 -06:00 [INF] HTTP GET /favicon.ico responded 404 in 2.0390 ms
+2020-09-13 21:05:42.867 -06:00 [INF] Request finished in 5.6588ms 404 
+2020-09-13 21:05:54.500 -06:00 [INF] Request starting HTTP/1.1 GET https://localhost:5001/index.html  
+2020-09-13 21:05:54.504 -06:00 [INF] Request finished in 4.2723ms 200 text/html;charset=utf-8
+2020-09-13 21:05:55.181 -06:00 [INF] Request starting HTTP/1.1 GET https://localhost:5001/swagger/v1/swagger.json  
+2020-09-13 21:05:55.185 -06:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: No media types found in 'Microsoft.AspNet.OData.Formatter.ODataOutputFormatter.SupportedMediaTypes'. Add at least one media type to the list of supported media types.
+   at Microsoft.AspNetCore.Mvc.Formatters.OutputFormatter.GetSupportedContentTypes(String contentType, Type objectType)
+   at Microsoft.AspNetCore.Mvc.ApiExplorer.ApiResponseTypeProvider.CalculateResponseFormats(ICollection`1 responseTypes, MediaTypeCollection declaredContentTypes)
+   at Microsoft.AspNetCore.Mvc.ApiExplorer.ApiResponseTypeProvider.GetApiResponseTypes(IReadOnlyList`1 responseMetadataAttributes, Type type, Type defaultErrorType)
+   at Microsoft.AspNetCore.Mvc.ApiExplorer.ApiResponseTypeProvider.GetApiResponseTypes(ControllerActionDescriptor action)
+   at Microsoft.AspNetCore.Mvc.ApiExplorer.DefaultApiDescriptionProvider.CreateApiDescription(ControllerActionDescriptor action, String httpMethod, String groupName)
+   at Microsoft.AspNetCore.Mvc.ApiExplorer.DefaultApiDescriptionProvider.OnProvidersExecuting(ApiDescriptionProviderContext context)
+   at Microsoft.AspNetCore.Mvc.ApiExplorer.ApiDescriptionGroupCollectionProvider.GetCollection(ActionDescriptorCollection actionDescriptors)
+   at Microsoft.AspNetCore.Mvc.ApiExplorer.ApiDescriptionGroupCollectionProvider.get_ApiDescriptionGroups()
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GetSwagger(String documentName, String host, String basePath)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2020-09-13 21:05:55.194 -06:00 [INF] Request finished in 12.5931ms 500 text/plain
+2020-09-13 21:11:51.151 -06:00 [INF] Request starting HTTP/1.1 GET https://localhost:5001/odata/album  
+2020-09-13 21:11:51.274 -06:00 [INF] Route matched with {action = "Get", controller = "Album"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Get() on controller FacwareBase.API.Controllers.AlbumController (FacwareBase.API).
+2020-09-13 21:11:52.981 -06:00 [INF] Entity Framework Core 3.1.8 initialized 'MusicContext' using provider 'Microsoft.EntityFrameworkCore.InMemory' with options: StoreName=AlbumsDB 
+2020-09-13 21:11:53.313 -06:00 [INF] Saved 3 entities to in-memory store.
+2020-09-13 21:11:53.477 -06:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[FacwareBase.API.Helpers.Domain.POCO.Album, FacwareBase.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2020-09-13 21:11:53.801 -06:00 [INF] Executed action FacwareBase.API.Controllers.AlbumController.Get (FacwareBase.API) in 2512.9438ms
+2020-09-13 21:11:53.922 -06:00 [INF] HTTP GET /odata/album responded 200 in 2769.4015 ms
+2020-09-13 21:11:53.958 -06:00 [INF] Request finished in 2806.7499ms 200 application/json; odata.metadata=minimal; odata.streaming=true
+2020-09-13 21:12:09.321 -06:00 [INF] Request starting HTTP/1.1 GET https://localhost:5001/odata/album  
+2020-09-13 21:12:09.329 -06:00 [INF] Route matched with {action = "Get", controller = "Album"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Get() on controller FacwareBase.API.Controllers.AlbumController (FacwareBase.API).
+2020-09-13 21:12:09.363 -06:00 [INF] Entity Framework Core 3.1.8 initialized 'MusicContext' using provider 'Microsoft.EntityFrameworkCore.InMemory' with options: StoreName=AlbumsDB 
+2020-09-13 21:12:09.368 -06:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[FacwareBase.API.Helpers.Domain.POCO.Album, FacwareBase.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2020-09-13 21:12:09.379 -06:00 [INF] Executed action FacwareBase.API.Controllers.AlbumController.Get (FacwareBase.API) in 49.362ms
+2020-09-13 21:12:09.380 -06:00 [INF] HTTP GET /odata/album responded 200 in 57.0487 ms
+2020-09-13 21:12:09.381 -06:00 [INF] Request finished in 60.4671ms 200 application/json; odata.metadata=minimal; odata.streaming=true
+2020-09-13 21:12:48.129 -06:00 [INF] Request starting HTTP/1.1 GET https://localhost:5001/swagger  
+2020-09-13 21:12:48.133 -06:00 [INF] HTTP GET /swagger responded 404 in 0.6709 ms
+2020-09-13 21:12:48.135 -06:00 [INF] Request finished in 6.0031ms 404 
+2020-09-13 21:12:53.509 -06:00 [INF] Request starting HTTP/1.1 GET https://localhost:5001/index  
+2020-09-13 21:12:53.510 -06:00 [INF] HTTP GET /index responded 404 in 0.4741 ms
+2020-09-13 21:12:53.512 -06:00 [INF] Request finished in 3.2024ms 404 
+2020-09-13 21:12:57.885 -06:00 [INF] Request starting HTTP/1.1 GET https://localhost:5001/index.html  
+2020-09-13 21:12:57.889 -06:00 [INF] Request finished in 3.8287ms 200 text/html;charset=utf-8
+2020-09-13 21:12:58.439 -06:00 [INF] Request starting HTTP/1.1 GET https://localhost:5001/swagger/v1/swagger.json  
+2020-09-13 21:12:58.442 -06:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: No media types found in 'Microsoft.AspNet.OData.Formatter.ODataOutputFormatter.SupportedMediaTypes'. Add at least one media type to the list of supported media types.
+   at Microsoft.AspNetCore.Mvc.Formatters.OutputFormatter.GetSupportedContentTypes(String contentType, Type objectType)
+   at Microsoft.AspNetCore.Mvc.ApiExplorer.ApiResponseTypeProvider.CalculateResponseFormats(ICollection`1 responseTypes, MediaTypeCollection declaredContentTypes)
+   at Microsoft.AspNetCore.Mvc.ApiExplorer.ApiResponseTypeProvider.GetApiResponseTypes(IReadOnlyList`1 responseMetadataAttributes, Type type, Type defaultErrorType)
+   at Microsoft.AspNetCore.Mvc.ApiExplorer.ApiResponseTypeProvider.GetApiResponseTypes(ControllerActionDescriptor action)
+   at Microsoft.AspNetCore.Mvc.ApiExplorer.DefaultApiDescriptionProvider.CreateApiDescription(ControllerActionDescriptor action, String httpMethod, String groupName)
+   at Microsoft.AspNetCore.Mvc.ApiExplorer.DefaultApiDescriptionProvider.OnProvidersExecuting(ApiDescriptionProviderContext context)
+   at Microsoft.AspNetCore.Mvc.ApiExplorer.ApiDescriptionGroupCollectionProvider.GetCollection(ActionDescriptorCollection actionDescriptors)
+   at Microsoft.AspNetCore.Mvc.ApiExplorer.ApiDescriptionGroupCollectionProvider.get_ApiDescriptionGroups()
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GetSwagger(String documentName, String host, String basePath)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2020-09-13 21:12:58.446 -06:00 [INF] Request finished in 6.3439ms 500 text/plain
+2020-09-13 21:13:10.287 -06:00 [INF] Request starting HTTP/1.1 GET https://localhost:5001/swagger/v1/swagger.json  
+2020-09-13 21:13:10.290 -06:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: No media types found in 'Microsoft.AspNet.OData.Formatter.ODataOutputFormatter.SupportedMediaTypes'. Add at least one media type to the list of supported media types.
+   at Microsoft.AspNetCore.Mvc.Formatters.OutputFormatter.GetSupportedContentTypes(String contentType, Type objectType)
+   at Microsoft.AspNetCore.Mvc.ApiExplorer.ApiResponseTypeProvider.CalculateResponseFormats(ICollection`1 responseTypes, MediaTypeCollection declaredContentTypes)
+   at Microsoft.AspNetCore.Mvc.ApiExplorer.ApiResponseTypeProvider.GetApiResponseTypes(IReadOnlyList`1 responseMetadataAttributes, Type type, Type defaultErrorType)
+   at Microsoft.AspNetCore.Mvc.ApiExplorer.ApiResponseTypeProvider.GetApiResponseTypes(ControllerActionDescriptor action)
+   at Microsoft.AspNetCore.Mvc.ApiExplorer.DefaultApiDescriptionProvider.CreateApiDescription(ControllerActionDescriptor action, String httpMethod, String groupName)
+   at Microsoft.AspNetCore.Mvc.ApiExplorer.DefaultApiDescriptionProvider.OnProvidersExecuting(ApiDescriptionProviderContext context)
+   at Microsoft.AspNetCore.Mvc.ApiExplorer.ApiDescriptionGroupCollectionProvider.GetCollection(ActionDescriptorCollection actionDescriptors)
+   at Microsoft.AspNetCore.Mvc.ApiExplorer.ApiDescriptionGroupCollectionProvider.get_ApiDescriptionGroups()
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GetSwagger(String documentName, String host, String basePath)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2020-09-13 21:13:10.330 -06:00 [INF] Request finished in 43.7434ms 500 text/html; charset=utf-8
+2020-09-13 21:14:20.870 -06:00 [INF] Application is shutting down...
+2020-09-13 21:19:01.095 -06:00 [INF] Staring up
+2020-09-13 21:19:01.630 -06:00 [INF] User profile is available. Using '/Users/developer/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2020-09-13 21:19:02.409 -06:00 [INF] Now listening on: https://localhost:5001
+2020-09-13 21:19:02.410 -06:00 [INF] Now listening on: http://localhost:5000
+2020-09-13 21:19:02.410 -06:00 [INF] Application started. Press Ctrl+C to shut down.
+2020-09-13 21:19:02.411 -06:00 [INF] Hosting environment: Local
+2020-09-13 21:19:02.411 -06:00 [INF] Content root path: /Users/developer/Documents/projects/github/facware-base-backend/FacwareBase.API
+2020-09-13 21:19:12.275 -06:00 [INF] Request starting HTTP/1.1 GET https://localhost:5001/swagger/v1/swagger.json  
+2020-09-13 21:19:12.441 -06:00 [INF] Request finished in 168.7303ms 200 application/json;charset=utf-8
+2020-09-13 21:19:28.503 -06:00 [INF] Request starting HTTP/1.1 GET https://localhost:5001/index.html  
+2020-09-13 21:19:28.574 -06:00 [INF] Request finished in 71.23ms 200 text/html;charset=utf-8
+2020-09-13 21:19:29.135 -06:00 [INF] Request starting HTTP/1.1 GET https://localhost:5001/swagger/v1/swagger.json  
+2020-09-13 21:19:29.159 -06:00 [INF] Request finished in 23.3268ms 200 application/json;charset=utf-8
+2020-09-13 21:26:28.779 -06:00 [INF] Request starting HTTP/1.1 GET https://localhost:5001/odata/album  
+2020-09-13 21:26:28.955 -06:00 [INF] Route matched with {action = "Get", controller = "Album"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Get() on controller FacwareBase.API.Controllers.AlbumController (FacwareBase.API).
+2020-09-13 21:26:29.745 -06:00 [INF] Entity Framework Core 3.1.8 initialized 'MusicContext' using provider 'Microsoft.EntityFrameworkCore.InMemory' with options: StoreName=AlbumsDB 
+2020-09-13 21:26:30.083 -06:00 [INF] Saved 3 entities to in-memory store.
+2020-09-13 21:26:30.193 -06:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[FacwareBase.API.Helpers.Domain.POCO.Album, FacwareBase.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2020-09-13 21:26:30.443 -06:00 [INF] Executed action FacwareBase.API.Controllers.AlbumController.Get (FacwareBase.API) in 1475.6035ms
+2020-09-13 21:26:30.449 -06:00 [INF] HTTP GET /odata/album responded 200 in 1659.4459 ms
+2020-09-13 21:26:30.453 -06:00 [INF] Request finished in 1674.2215ms 200 application/json; odata.metadata=minimal; odata.streaming=true
+2020-09-13 21:26:33.401 -06:00 [INF] Request starting HTTP/1.1 GET https://localhost:5001/swagger/v1/swagger.json  
+2020-09-13 21:26:33.416 -06:00 [INF] Request finished in 13.7984ms 200 application/json;charset=utf-8
+2020-09-13 21:33:07.575 -06:00 [INF] Application is shutting down...
+2020-09-13 21:33:20.752 -06:00 [INF] Staring up
+2020-09-13 21:33:21.269 -06:00 [INF] User profile is available. Using '/Users/developer/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2020-09-13 21:33:22.067 -06:00 [INF] Now listening on: https://localhost:5001
+2020-09-13 21:33:22.068 -06:00 [INF] Now listening on: http://localhost:5000
+2020-09-13 21:33:22.068 -06:00 [INF] Application started. Press Ctrl+C to shut down.
+2020-09-13 21:33:22.069 -06:00 [INF] Hosting environment: Local
+2020-09-13 21:33:22.069 -06:00 [INF] Content root path: /Users/developer/Documents/projects/github/facware-base-backend/FacwareBase.API
+2020-09-13 21:33:30.568 -06:00 [INF] Request starting HTTP/1.1 GET https://localhost:5001/index.html  
+2020-09-13 21:33:30.658 -06:00 [INF] Request finished in 93.9577ms 200 text/html;charset=utf-8
+2020-09-13 21:33:31.129 -06:00 [INF] Request starting HTTP/1.1 GET https://localhost:5001/swagger/v1/swagger.json  
+2020-09-13 21:33:31.207 -06:00 [INF] Request starting HTTP/1.1 GET https://localhost:5001/favicon-32x32.png  
+2020-09-13 21:33:31.233 -06:00 [INF] Sending file. Request path: '/favicon-32x32.png'. Physical path: 'N/A'
+2020-09-13 21:33:31.234 -06:00 [INF] Request finished in 26.9324ms 200 image/png
+2020-09-13 21:33:31.319 -06:00 [INF] Request finished in 190.0738ms 200 application/json;charset=utf-8
+2020-09-13 21:33:34.864 -06:00 [INF] Request starting HTTP/1.1 GET https://localhost:5001/odata/album  
+2020-09-13 21:33:35.038 -06:00 [INF] Route matched with {action = "Get", controller = "Album"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Get() on controller FacwareBase.API.Controllers.AlbumController (FacwareBase.API).
+2020-09-13 21:33:36.002 -06:00 [INF] Entity Framework Core 3.1.8 initialized 'MusicContext' using provider 'Microsoft.EntityFrameworkCore.InMemory' with options: StoreName=AlbumsDB 
+2020-09-13 21:33:36.332 -06:00 [INF] Saved 3 entities to in-memory store.
+2020-09-13 21:33:36.414 -06:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[FacwareBase.API.Helpers.Domain.POCO.Album, FacwareBase.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2020-09-13 21:33:36.662 -06:00 [INF] Executed action FacwareBase.API.Controllers.AlbumController.Get (FacwareBase.API) in 1614.5454ms
+2020-09-13 21:33:36.668 -06:00 [INF] HTTP GET /odata/album responded 200 in 1792.3948 ms
+2020-09-13 21:33:36.673 -06:00 [INF] Request finished in 1809.9379ms 200 application/json; odata.metadata=minimal; odata.streaming=true
+2020-09-13 21:33:38.431 -06:00 [INF] Request starting HTTP/1.1 GET https://localhost:5001/swagger/v1/swagger.json  
+2020-09-13 21:33:38.457 -06:00 [INF] Request finished in 26.3764ms 200 application/json;charset=utf-8
+2020-09-13 21:43:40.334 -06:00 [INF] Application is shutting down...
