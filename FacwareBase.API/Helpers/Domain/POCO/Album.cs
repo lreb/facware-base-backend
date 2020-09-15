@@ -2,6 +2,9 @@ using System.Collections.Generic;
 
 namespace FacwareBase.API.Helpers.Domain.POCO
 {
+  /// <summary>
+  /// Demo model
+  /// </summary>
   public class Album
   {
       public Album()

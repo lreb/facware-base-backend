@@ -25,7 +25,6 @@ namespace FacwareBase.API
             Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Information()
             .Enrich.FromLogContext()
-            //.ReadFrom.Configuration(configuration)
             .WriteTo.Debug()
             .WriteTo.ColoredConsole(
                 LogEventLevel.Verbose,

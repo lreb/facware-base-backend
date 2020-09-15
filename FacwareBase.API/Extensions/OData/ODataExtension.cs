@@ -3,7 +3,6 @@ using FacwareBase.API.Helpers.Domain.POCO;
 using Microsoft.AspNet.OData.Builder;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.OData.Edm;
-using Microsoft.OpenApi.Models;
 
 namespace FacwareBase.Api.Extensions.OData
 {
@@ -27,24 +26,19 @@ namespace FacwareBase.Api.Extensions.OData
 			return builder.GetEdmModel();
 		}
 
-    /// <summary>
-	/// Generates the OData IEdm Models based on the DB Tables/Models extension method
-	/// </summary>
-	/// <param name="app"></param>
-	/// <returns><see cref="IEdmModel"/></returns>
-    public static IEdmModel GetODataModels(this IApplicationBuilder app)
-	{
-		ODataModelBuilder builder = new ODataConventionModelBuilder(app.ApplicationServices).EnableLowerCamelCase();
+		/// <summary>
+		/// Generates the OData IEdm Models based on the DB Tables/Models extension method
+		/// </summary>
+		/// <param name="app"></param>
+		/// <returns><see cref="IEdmModel"/></returns>
+		public static IEdmModel GetODataModels(this IApplicationBuilder app)
+		{
+			ODataModelBuilder builder = new ODataConventionModelBuilder(app.ApplicationServices).EnableLowerCamelCase();
 
-		builder.EntitySet<Song>("Songs");
-		builder.EntitySet<Album>("Album");
+			builder.EntitySet<Song>("Songs");
+			builder.EntitySet<Album>("Album");
 
-		return builder.GetEdmModel();
+			return builder.GetEdmModel();
+		}
 	}
-
-	public static void s()
-	{
-
-	}
-  }
 }

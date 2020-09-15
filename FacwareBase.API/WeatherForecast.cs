@@ -2,6 +2,9 @@ using System;
 
 namespace FacwareBase.API
 {
+    /// <summary>
+    /// Demo model
+    /// </summary>
     public class WeatherForecast
     {
         public DateTime Date { get; set; }

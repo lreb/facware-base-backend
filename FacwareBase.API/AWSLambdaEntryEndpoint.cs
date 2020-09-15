@@ -72,13 +72,7 @@ namespace FacwareBase.API
             
             Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Information()
-            //.MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
-            //.Enrich.FromLogContext()
-            //.ReadFrom.Configuration(configuration)
-            //.WriteTo.Debug()
-            // .WriteTo.Console(new CompactJsonFormatter())
             .WriteTo.AmazonCloudWatch(options, client)
-            //.WriteTo.Console()
             .CreateLogger();
 
             try
