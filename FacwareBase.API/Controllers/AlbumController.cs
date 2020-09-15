@@ -3,17 +3,24 @@ using System.Linq;
 using FacwareBase.API.Helpers.Domain.POCO;
 using FacwareBase.API.Helpers.OData;
 using Microsoft.AspNet.OData;
-using Microsoft.AspNet.OData.Routing;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace FacwareBase.API.Controllers
 {
+    /// <summary>
+    /// Demo Controller with OData feature
+    /// </summary>
     public class AlbumController : ODataController
     {
         private readonly ILogger<AlbumController> _logger;  
         private readonly MusicContext _context;
+        /// <summary>
+        /// Demo constructor
+        /// </summary>
+        /// <param name="context">database context</param>
+        /// <param name="logger">serilog DI</param>
         public AlbumController(MusicContext context, ILogger<AlbumController> logger)
         {
             _logger = logger;
@@ -23,9 +30,11 @@ namespace FacwareBase.API.Controllers
                 _context.Database.EnsureCreated();
             }
         }
-
-        //[EnableQuery]
-        [ServiceFilter(typeof(CustomEnableQueryAttribute))]
+        /// <summary>
+        /// Get data using OData
+        /// </summary>
+        /// <returns>Albums <see cref="Album"/></returns>
+        [EnableQueryFromODataToAWS]
         public IActionResult Get()
         {
             try
@@ -46,11 +55,11 @@ namespace FacwareBase.API.Controllers
         }
 
         /// <summary>
-        /// Demo
+        /// Get data using OData
         /// </summary>
-        /// <returns>album</returns>
-        //[EnableQuery]
-        [ServiceFilter(typeof(CustomEnableQueryAttribute))]
+        /// <param name="key">Album id</param>
+        /// <returns>Albums <see cref="Album"/></returns>
+        [EnableQueryFromODataToAWS]
         public IActionResult Get(int key)
         {
             try
