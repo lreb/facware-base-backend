@@ -3,6 +3,7 @@ using System.Linq;
 using FacwareBase.API.Helpers.Domain.POCO;
 using FacwareBase.API.Helpers.OData;
 using Microsoft.AspNet.OData;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -12,6 +13,7 @@ namespace FacwareBase.API.Controllers
     /// <summary>
     /// Demo Controller with OData feature
     /// </summary>
+    [Authorize]
     public class AlbumController : ODataController
     {
         private readonly ILogger<AlbumController> _logger;  

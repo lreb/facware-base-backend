@@ -110,7 +110,10 @@ namespace FacwareBase.API
 
             // AWS odata attribute
             services.AddScoped<EnableQueryFromODataToAWS>();
-            #endregion            
+            #endregion    
+
+            // enalbe Okta service
+            services.ConfigureOkta(Configuration);        
         }
 
         /// <summary>
@@ -155,6 +158,8 @@ namespace FacwareBase.API
             app.UseSerilogRequestLogging();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
