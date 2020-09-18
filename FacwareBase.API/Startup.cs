@@ -22,6 +22,7 @@ using FacwareBase.API.Helpers.OData;
 using FacwareBase.API.Helpers.Jwt;
 using FacwareBase.API.Extensions.DependencyInyection;
 using FacwareBase.API.Extensions.Authentication;
+using FacwareBase.API.Helpers.Authentication;
 
 namespace FacwareBase.API
 {
@@ -70,12 +71,19 @@ namespace FacwareBase.API
         /// <param name="services">Application services <see cref="IServiceCollection"/></param>
         public void ConfigureServices(IServiceCollection services)
         {
+            #region enable app settings
             ConfigureConfigSettings(services);
+            #endregion
 
+            #region Cors service
             // enable policy cors service
 	        services.ConfigureCors(Configuration);
+            #endregion
+
+            #region Health check service
             // enable healtcheck
             services.AddHealthChecks();
+            #endregion
 
             services.AddMvc(Options=>
             {
@@ -86,18 +94,23 @@ namespace FacwareBase.API
                 options.SerializerSettings.ContractResolver  = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver();
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             });
+
+            #region Swagger service
             // enable swagger service
             services.ConfigureSwaggerExtension(Configuration);
+            #endregion
 
             services.AddControllers();
 
+            #region Database context service
             // TODO: before use this, create your own dbcontext
             // services.UsePostgreSqlServer(_connectionString.Value.ApplicationConfigurationConnectionString);
 
             // in memory db
             services.UseInMemoryDatabase();
+            #endregion
 
-            #region OData
+            #region OData service
             // enable custom healt check
             services.AddHealthChecks()
 	            .AddCheck<CustomHealthCheckExtension>("custom");
@@ -122,11 +135,20 @@ namespace FacwareBase.API
             services.AddScoped<EnableQueryFromODataToAWS>();
             #endregion    
 
-            #region Authentication method
-            // enalbe Okta service
-            //services.ConfigureOkta(Configuration);      
-            // enalbe JWT bearer
-            services.ConfigureJwt(Configuration);
+            #region Authentication service
+
+            var authenticationOptions = Configuration.GetSection(AuthenticationOptions.AuthenticationOptionsSection).Get<AuthenticationOptions>();
+            
+            if(authenticationOptions.AuthenticationMode.Contains(AuthenticationModes.Okta))
+            {
+                // enalbe Okta service
+                services.ConfigureOkta(Configuration);      
+            }
+            else if(authenticationOptions.AuthenticationMode.Contains(AuthenticationModes.Jwt)) 
+            {
+                // enalbe JWT bearer
+                services.ConfigureJwt(Configuration);
+            }
             #endregion
         }
 

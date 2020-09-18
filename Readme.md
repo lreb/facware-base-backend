@@ -7,6 +7,26 @@ Be free to take this code as you wish.
 
 ## Integrations
 
+the integrations are ready to use
+
+## Authentication
+
+you can use OKTA or JWT methods
+
+### JWT
+
+just enable this service in `startup.cs`
+
+`services.ConfigureOkta(Configuration);`
+
+remeber add your own setting values in appsettings[environment].json file
+
+### OKTA
+
+just enable this service in `startup.cs`
+
+`services.ConfigureJwt(Configuration);`
+
 ## OData
 
 Use this attribute `EnableQueryFromODataToAWS` instead `EnableQuery`

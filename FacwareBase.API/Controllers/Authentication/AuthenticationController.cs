@@ -25,8 +25,15 @@ namespace FacwareBase.API.Controllers.Authentication
         {
             IList<string> roles = new List<string>(){"Administrator","DemoRole"};
 
-            return Ok(await _jwtUtility.GenerateJwt(user, roles));
-            //return Ok();
+            var token = await _jwtUtility.GenerateJwt(user, roles);
+            return Ok(new 
+            {
+                User = new {
+                    Token = token,
+                    Name = user.Name,
+                    Email = user.Email
+                }
+            });
         }
     }
 }

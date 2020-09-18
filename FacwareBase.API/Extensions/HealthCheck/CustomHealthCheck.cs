@@ -34,6 +34,7 @@ namespace FacwareBase.Api.Extensions.HealthCheck
 			Dictionary<string, object> data = new Dictionary<string, object>();
 			data["environment"] = _config["HealthChecks:Environment"];
 			data["corsAllowedOrigin"] = _config.GetSection("Cors:AllowedOrigin").Get<string[]>();
+			data["authenticationMode"] = _config["Authentication:AuthenticationMode"];
 			// data["connection"] = _config["ConnectionStrings:ApplicationConfigurationConnectionString"];
 			return Task.FromResult(
 				HealthCheckResult.Healthy("Test health check data", data));
