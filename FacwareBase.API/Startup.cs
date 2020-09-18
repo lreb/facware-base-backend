@@ -19,6 +19,9 @@ using FacwareBase.Api.Extensions.OData;
 using Microsoft.AspNet.OData.Formatter;
 using Microsoft.Net.Http.Headers;
 using FacwareBase.API.Helpers.OData;
+using FacwareBase.API.Helpers.Jwt;
+using FacwareBase.API.Extensions.DependencyInyection;
+using FacwareBase.API.Extensions.Authentication;
 
 namespace FacwareBase.API
 {
@@ -53,6 +56,10 @@ namespace FacwareBase.API
                .AddOptions()
                .Configure<ConnectionString>(Configuration.GetSection(nameof(ConnectionString)));
 
+            services
+                .AddOptions()
+                .Configure<JwtOptions>(Configuration.GetSection(JwtOptions.JwtOptionsSection));
+
             var serviceProvider = services.BuildServiceProvider();
 
             _connectionString = serviceProvider.GetService<IOptionsSnapshot<ConnectionString>>();
@@ -63,6 +70,8 @@ namespace FacwareBase.API
         /// <param name="services">Application services <see cref="IServiceCollection"/></param>
         public void ConfigureServices(IServiceCollection services)
         {
+            ConfigureConfigSettings(services);
+
             // enable policy cors service
 	        services.ConfigureCors(Configuration);
             // enable healtcheck
@@ -108,12 +117,17 @@ namespace FacwareBase.API
                 }
             });
 
+            services.DependencyInyectionConfiguration();
             // AWS odata attribute
             services.AddScoped<EnableQueryFromODataToAWS>();
             #endregion    
 
+            #region Authentication method
             // enalbe Okta service
-            services.ConfigureOkta(Configuration);        
+            //services.ConfigureOkta(Configuration);      
+            // enalbe JWT bearer
+            services.ConfigureJwt(Configuration);
+            #endregion
         }
 
         /// <summary>
