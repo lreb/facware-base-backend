@@ -19,6 +19,10 @@ using FacwareBase.Api.Extensions.OData;
 using Microsoft.AspNet.OData.Formatter;
 using Microsoft.Net.Http.Headers;
 using FacwareBase.API.Helpers.OData;
+using FacwareBase.API.Helpers.Jwt;
+using FacwareBase.API.Extensions.DependencyInyection;
+using FacwareBase.API.Extensions.Authentication;
+using FacwareBase.API.Helpers.Authentication;
 
 namespace FacwareBase.API
 {
@@ -53,6 +57,10 @@ namespace FacwareBase.API
                .AddOptions()
                .Configure<ConnectionString>(Configuration.GetSection(nameof(ConnectionString)));
 
+            services
+                .AddOptions()
+                .Configure<JwtOptions>(Configuration.GetSection(JwtOptions.JwtOptionsSection));
+
             var serviceProvider = services.BuildServiceProvider();
 
             _connectionString = serviceProvider.GetService<IOptionsSnapshot<ConnectionString>>();
@@ -63,10 +71,19 @@ namespace FacwareBase.API
         /// <param name="services">Application services <see cref="IServiceCollection"/></param>
         public void ConfigureServices(IServiceCollection services)
         {
+            #region enable app settings
+            ConfigureConfigSettings(services);
+            #endregion
+
+            #region Cors service
             // enable policy cors service
 	        services.ConfigureCors(Configuration);
+            #endregion
+
+            #region Health check service
             // enable healtcheck
             services.AddHealthChecks();
+            #endregion
 
             services.AddMvc(Options=>
             {
@@ -77,18 +94,25 @@ namespace FacwareBase.API
                 options.SerializerSettings.ContractResolver  = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver();
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             });
+
+            services.DependencyInyectionConfiguration();
+
+            #region Swagger service
             // enable swagger service
             services.ConfigureSwaggerExtension(Configuration);
+            #endregion
 
             services.AddControllers();
 
+            #region Database context service
             // TODO: before use this, create your own dbcontext
             // services.UsePostgreSqlServer(_connectionString.Value.ApplicationConfigurationConnectionString);
 
             // in memory db
             services.UseInMemoryDatabase();
+            #endregion
 
-            #region OData
+            #region OData service
             // enable custom healt check
             services.AddHealthChecks()
 	            .AddCheck<CustomHealthCheckExtension>("custom");
@@ -108,9 +132,26 @@ namespace FacwareBase.API
                 }
             });
 
+            services.DependencyInyectionConfiguration();
             // AWS odata attribute
             services.AddScoped<EnableQueryFromODataToAWS>();
-            #endregion            
+            #endregion    
+
+            #region Authentication service
+
+            var authenticationOptions = Configuration.GetSection(AuthenticationOptions.AuthenticationOptionsSection).Get<AuthenticationOptions>();
+            
+            if(authenticationOptions.AuthenticationMode.Contains(AuthenticationModes.Okta))
+            {
+                // enalbe Okta service
+                services.ConfigureOkta(Configuration);      
+            }
+            else if(authenticationOptions.AuthenticationMode.Contains(AuthenticationModes.Jwt)) 
+            {
+                // enalbe JWT bearer
+                services.ConfigureJwt(Configuration);
+            }
+            #endregion
         }
 
         /// <summary>
@@ -155,6 +196,8 @@ namespace FacwareBase.API
             app.UseSerilogRequestLogging();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
