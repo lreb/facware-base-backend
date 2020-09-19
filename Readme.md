@@ -1,4 +1,3 @@
-
 # Facware Base
 
 This project has the proposition to provide an API with common features used in a regular project, besides try to implement the last technology versions to provide a new solutions to common problems.
@@ -11,21 +10,31 @@ the integrations are ready to use
 
 ## Authentication
 
-you can use OKTA or JWT methods
+you can use OKTA or JWT methods, just need change app settings configuration
 
 ### JWT
 
-just enable this service in `startup.cs`
+just enable this service in appsettings[environment].json like this
 
-`services.ConfigureOkta(Configuration);`
+```json
+ "Authentication":{
+    "AuthenticationMode": "Jwt"
+  },
+```
 
 remeber add your own setting values in appsettings[environment].json file
 
 ### OKTA
 
-just enable this service in `startup.cs`
+just enable this service in appsettings[environment].json like this
 
-`services.ConfigureJwt(Configuration);`
+```json
+ "Authentication":{
+    "AuthenticationMode": "Okta"
+  },
+```
+
+remeber add your own setting values in appsettings[environment].json file
 
 ## OData
 

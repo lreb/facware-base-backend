@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FacwareBase.API.Controllers.Authentication
 {
+    /// <summary>
+    /// Provides authentication feature JWT
+    /// </summary>
     [Route("api/[controller]")]
     public class AuthenticationController: ControllerBase
     {

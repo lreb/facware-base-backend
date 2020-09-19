@@ -3,6 +3,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace FacwareBase.API.Extensions.DependencyInyection
 {
+    /// <summary>
+    /// register all dependencies
+    /// </summary>
     public static class DependencyInyectionExtension
     {
         /// <summary>

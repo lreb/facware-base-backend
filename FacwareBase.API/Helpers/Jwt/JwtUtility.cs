@@ -26,14 +26,16 @@ namespace FacwareBase.API.Helpers.Jwt
 		)
 		{
 			_jwtSettingsOptions = jwtSettingsOptions.Value;
-            //_configuration = configuration;
 		}
 
-        //public static readonly string OktaConfiguartion = "Jwt";
+        /// <summary>
+        /// generates jwt token with user data
+        /// </summary>
+        /// <param name="user">User information<see cref="User"/></param>
+        /// <param name="roles">Role information<see cref="string"/></param>
+        /// <returns></returns>
         public async Task<string> GenerateJwt(User user, IList<string> roles)
         {
-            //_jwtSettingsOptions = _configuration.GetSection(JwtOptions.JwtOptionsSection).Get<JwtOptions>();
-
             var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),

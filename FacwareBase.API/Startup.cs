@@ -95,6 +95,8 @@ namespace FacwareBase.API
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             });
 
+            services.DependencyInyectionConfiguration();
+
             #region Swagger service
             // enable swagger service
             services.ConfigureSwaggerExtension(Configuration);

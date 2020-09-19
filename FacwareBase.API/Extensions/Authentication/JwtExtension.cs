@@ -7,6 +7,9 @@ using System.Text;
 
 namespace FacwareBase.API.Extensions.Authentication
 {
+    /// <summary>
+    /// Utility to JWT
+    /// </summary>
     public static class JwtExtension
     {
         /// <summary>
