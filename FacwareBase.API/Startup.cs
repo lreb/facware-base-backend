@@ -162,7 +162,7 @@ namespace FacwareBase.API
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             // Cors pipe
-            app.UseCors(CorsExtension.QSSAllowSpecificOrigins);
+            app.UseCors(CorsExtension.AllowSpecificOrigins);
             // handle several environments
 	        if (env.IsLocal())
             {

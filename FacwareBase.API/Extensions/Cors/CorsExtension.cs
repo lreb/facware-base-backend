@@ -11,7 +11,7 @@ namespace FacwareBase.Api.Extensions.Cors
 		/// <summary>
 		/// Policy cors name
 		/// </summary>
-		public static readonly string QSSAllowSpecificOrigins = "QSSAllowSpecificOrigins";
+		public static readonly string AllowSpecificOrigins = "AllowSpecificOrigins";
 
 		/// <summary>
 		/// CORS configurations
@@ -22,7 +22,7 @@ namespace FacwareBase.Api.Extensions.Cors
 		{
 			services.AddCors(options =>
 			{
-				options.AddPolicy(QSSAllowSpecificOrigins,
+				options.AddPolicy(AllowSpecificOrigins,
 					builder =>
 					{
 						builder.WithOrigins(configuration.GetSection("Cors:AllowedOrigin").Get<string[]>())
