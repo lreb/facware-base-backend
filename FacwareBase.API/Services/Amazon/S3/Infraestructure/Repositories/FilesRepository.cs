@@ -4,11 +4,12 @@ using System.Threading.Tasks;
 using FacwareBase.API.Services.Amazon.S3.Core.File;
 using FacwareBase.API.Services.Amazon.S3.Core.Interfaces;
 using Microsoft.AspNetCore.Http;
-using Amazon.;
 using Amazon.S3;
 using Amazon.S3.Transfer;
 using Amazon.S3.Model;
 using System.Linq;
+using Newtonsoft.Json;
+using System.IO;
 
 namespace FacwareBase.API.Services.Amazon.S3.Infraestructure.Repositories
 {
