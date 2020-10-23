@@ -31,7 +31,7 @@ namespace FacwareBase.Api.Extensions
         public static void UseSqlServer(this IServiceCollection serviceCollection, string applicationConfigurationConnectionString)
         {
           // TODO: use your context
-          //serviceCollection.AddDbContext<QSSContext>(o => o.UseSqlServer(applicationConfigurationConnectionString));
+          //serviceCollection.AddDbContext<Context>(o => o.UseSqlServer(applicationConfigurationConnectionString));
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace FacwareBase.Api.Extensions
           // https://www.npgsql.org/efcore/index.html#additional-configuration-for-aspnet-core-applications
 
           // TODO: use your context
-          //serviceCollection.AddDbContext<QSSContext>(options => options.UseNpgsql(applicationConfigurationConnectionString));
+          //serviceCollection.AddDbContext<Context>(options => options.UseNpgsql(applicationConfigurationConnectionString));
         }
 
     }

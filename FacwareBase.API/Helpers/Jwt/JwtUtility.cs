@@ -1,18 +1,17 @@
+using FacwareBase.API.Helpers.Domain.POCO;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using FacwareBase.API.Helpers.Domain.POCO;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.Extensions.Options;
 using System.Threading.Tasks;
 
 namespace FacwareBase.API.Helpers.Jwt
 {
-    public class JwtUtility : IJwtUtility
+	public class JwtUtility : IJwtUtility
     {
         private readonly JwtOptions _jwtSettingsOptions;
 

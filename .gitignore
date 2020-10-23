@@ -435,3 +435,4 @@ $RECYCLE.BIN/
 
 # Facware Base API
 FacwareBase.API/AWSLambda/
+FacwareBase.API/PublishAWSLambda/
