@@ -23,6 +23,12 @@ using FacwareBase.API.Helpers.Jwt;
 using FacwareBase.API.Extensions.DependencyInyection;
 using FacwareBase.API.Extensions.Authentication;
 using FacwareBase.API.Helpers.Authentication;
+using Amazon.S3;
+using FacwareBase.API.Core.File.Management;
+using FacwareBase.API.Helpers.Aws;
+using FacwareBase.API.Helpers.FileManagement;
+using FacwareBase.API.Services.Amazon.S3.Core.Interfaces;
+using FacwareBase.API.Services.Amazon.S3.Infraestructure.Repositories;
 
 namespace FacwareBase.API
 {
@@ -41,12 +47,12 @@ namespace FacwareBase.API
 		/// <param name="configuration"></param>
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            _configuration = configuration;
         }
         /// <summary>
-        /// Configuration values from app settings
+        /// _configuration values from app settings
         /// </summary>
-        public IConfiguration Configuration { get; }
+        public IConfiguration _configuration { get; }
         /// <summary>
         /// Load configuration settings
         /// </summary>
@@ -55,11 +61,19 @@ namespace FacwareBase.API
         {
             services
                .AddOptions()
-               .Configure<ConnectionString>(Configuration.GetSection(nameof(ConnectionString)));
+               .Configure<ConnectionString>(_configuration.GetSection(nameof(ConnectionString)));
 
             services
                 .AddOptions()
-                .Configure<JwtOptions>(Configuration.GetSection(JwtOptions.JwtOptionsSection));
+                .Configure<JwtOptions>(_configuration.GetSection(JwtOptions.JwtOptionsSection));
+
+            services
+	            .AddOptions()
+	            .Configure<SessionAwsCredentialsOptions>(_configuration.GetSection(nameof(SessionAwsCredentialsOptions)));
+
+            services
+	            .AddOptions()
+	            .Configure<FileStorageOptions>(_configuration.GetSection(nameof(FileStorageOptions)));
 
             var serviceProvider = services.BuildServiceProvider();
 
@@ -77,7 +91,7 @@ namespace FacwareBase.API
 
             #region Cors service
             // enable policy cors service
-	        services.ConfigureCors(Configuration);
+	        services.ConfigureCors(_configuration);
             #endregion
 
             #region Health check service
@@ -95,11 +109,11 @@ namespace FacwareBase.API
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             });
 
-            services.DependencyInyectionConfiguration();
+            services.JwtDependency();
 
             #region Swagger service
             // enable swagger service
-            services.ConfigureSwaggerExtension(Configuration);
+            services.ConfigureSwaggerExtension(_configuration);
             #endregion
 
             services.AddControllers();
@@ -131,27 +145,32 @@ namespace FacwareBase.API
                     inputFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/prs.odatatestxx-odata"));
                 }
             });
-
-            services.DependencyInyectionConfiguration();
+            
             // AWS odata attribute
             services.AddScoped<EnableQueryFromODataToAWS>();
             #endregion    
 
             #region Authentication service
 
-            var authenticationOptions = Configuration.GetSection(AuthenticationOptions.AuthenticationOptionsSection).Get<AuthenticationOptions>();
+            var authenticationOptions = _configuration.GetSection(AuthenticationOptions.AuthenticationOptionsSection).Get<AuthenticationOptions>();
             
             if(authenticationOptions.AuthenticationMode.Contains(AuthenticationModes.Okta))
             {
                 // enalbe Okta service
-                services.ConfigureOkta(Configuration);      
+                services.ConfigureOkta(_configuration);      
             }
             else if(authenticationOptions.AuthenticationMode.Contains(AuthenticationModes.Jwt)) 
             {
                 // enalbe JWT bearer
-                services.ConfigureJwt(Configuration);
+                services.ConfigureJwt(_configuration);
             }
             #endregion
+
+            services.JwtDependency();
+
+            services.AwsStorageDependency(_configuration);
+
+            services.FileManagementDependency();
         }
 
         /// <summary>
@@ -167,20 +186,20 @@ namespace FacwareBase.API
 	        if (env.IsLocal())
             {
                 app.UseDeveloperExceptionPage();
-                app.EnableSwaggerPipeline(Configuration);
+                app.EnableSwaggerPipeline(_configuration);
             }
 	        else if (env.IsDevelopment())
 	        {
 		        app.UseDeveloperExceptionPage();
-		        app.EnableSwaggerPipeline(Configuration);
+		        app.EnableSwaggerPipeline(_configuration);
             }
             else if(env.IsStaging())
             {
-	            app.EnableSwaggerPipeline(Configuration);
+	            app.EnableSwaggerPipeline(_configuration);
             }
             else
             {
-	            app.EnableSwaggerPipeline(Configuration);
+	            app.EnableSwaggerPipeline(_configuration);
             }
             
             //adding health check point used by the UI

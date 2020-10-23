@@ -47,3 +47,13 @@ Create API build
 
 Handler
 `FacwareBase.API::FacwareBase.API.LambdaEntryPoint::FunctionHandlerAsync`
+
+#### Role permissions
+
+get access to S3
+
+`arn:aws:iam::aws:policy/AmazonS3FullAccess`
+
+get access to execute lambda function
+
+`arn:aws:iam::aws:policy/AWSLambdaExecute`
