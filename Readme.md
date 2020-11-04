@@ -43,7 +43,7 @@ Use this attribute `EnableQueryFromODataToAWS` instead `EnableQuery`
 ### AWS lambda
 
 Create API build
-`dotnet publish -c Release -o AWSLambda`
+`demo`
 
 Handler
 `FacwareBase.API::FacwareBase.API.LambdaEntryPoint::FunctionHandlerAsync`

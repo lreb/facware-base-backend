@@ -27,42 +27,67 @@ namespace FacwareBase.API.Services.Amazon.S3.Infraestructure.Repositories
         public FilesRepository(IAmazonS3 s3Client,
 	        IOptions<SessionAwsCredentialsOptions> sessionAwsCredentialsOptions)
         {
-	        _sessionAwsCredentialsOptions = sessionAwsCredentialsOptions.Value;
-            // TODO: we must improve this client initialization, this code commented is just to test in the local environment
-            // create a temporal session to test locally, use SSO temporal keys, update these keys in app settings
-            //SessionAWSCredentials tempCredentials = new SessionAWSCredentials(_sessionAwsCredentialsOptions.AwsAccessKeyId,
-            // _sessionAwsCredentialsOptions.AwsSecretAccessKey,
-            // _sessionAwsCredentialsOptions.Token);
-            //_s3Client = new AmazonS3Client(tempCredentials, RegionEndpoint.APSoutheast1);
+	        var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
-            // IAM
-            //var credentials = new BasicAWSCredentials(_sessionAwsCredentialsOptions.AwsAccessKeyId, _sessionAwsCredentialsOptions.AwsSecretAccessKey);
-            //_s3Client = new AmazonS3Client(credentials, RegionEndpoint.USEast1);
+            _sessionAwsCredentialsOptions = sessionAwsCredentialsOptions.Value;
+            if (env.Contains("Local"))
+            {
+	            // TODO: we must improve this client initialization, this code commented is just to test in the local environment. create a temporal session to test locally, use SSO temporal keys, update these keys in app settings
+	            SessionAWSCredentials tempCredentials = new SessionAWSCredentials(_sessionAwsCredentialsOptions.AwsAccessKeyId,
+		            _sessionAwsCredentialsOptions.AwsSecretAccessKey,
+		            _sessionAwsCredentialsOptions.Token);
+	            _s3Client = new AmazonS3Client(tempCredentials, RegionEndpoint.APSoutheast1);
+            }
+            else
+            {
+	            // TODO: example using IAM keys
+	            // IAM
+	            //var credentials = new BasicAWSCredentials(_sessionAwsCredentialsOptions.AwsAccessKeyId, _sessionAwsCredentialsOptions.AwsSecretAccessKey);
+	            //_s3Client = new AmazonS3Client(RegionEndpoint.APSoutheast1);
 
-            // deployed to development, staging or production
-            _s3Client = s3Client;
+	            // TODO: using IAM role, deployed to development, staging or production
+	            _s3Client = s3Client;
+            }
         }
 
         private static async Task<SessionAWSCredentials> GetTemporaryCredentialsAsync()
         {
-	        using (var stsClient = new AmazonSecurityTokenServiceClient())
+			using var stsClient = new AmazonSecurityTokenServiceClient();
+			var getSessionTokenRequest = new GetSessionTokenRequest
+			{
+				DurationSeconds = 7200 // seconds
+			};
+
+			GetSessionTokenResponse sessionTokenResponse =
+				await stsClient.GetSessionTokenAsync(getSessionTokenRequest);
+
+			Credentials credentials = sessionTokenResponse.Credentials;
+
+			var sessionCredentials =
+				new SessionAWSCredentials(credentials.AccessKeyId,
+					credentials.SecretAccessKey,
+					credentials.SessionToken);
+			return sessionCredentials;
+		}
+
+        /// <summary>
+        /// List all key/files in a s3 bucket
+        /// </summary>
+        /// <param name="bucketName">bucket name</param>
+        /// <returns>ListFilesResponse<see cref="ListFilesResponse"/></returns>
+        public async Task<IEnumerable<ListFilesResponse>> ListFiles(string bucketName)
+        {
+	        var responses = await _s3Client.ListObjectsAsync(bucketName);
+
+	        return responses.S3Objects.Select(b => new ListFilesResponse
 	        {
-		        var getSessionTokenRequest = new GetSessionTokenRequest
-		        {
-			        DurationSeconds = 7200 // seconds
-		        };
-
-		        GetSessionTokenResponse sessionTokenResponse =
-			        await stsClient.GetSessionTokenAsync(getSessionTokenRequest);
-
-		        Credentials credentials = sessionTokenResponse.Credentials;
-
-		        var sessionCredentials =
-			        new SessionAWSCredentials(credentials.AccessKeyId,
-				        credentials.SecretAccessKey,
-				        credentials.SessionToken);
-		        return sessionCredentials;
-	        }
+		        BucketName = b.BucketName,
+		        Key = b.Key,
+		        Owner = b.Owner.DisplayName,
+		        Size = b.Size,
+		        LastModified = b.LastModified,
+		        StorageClass = b.StorageClass
+	        });
         }
 
         /// <summary>
@@ -72,20 +97,20 @@ namespace FacwareBase.API.Services.Amazon.S3.Infraestructure.Repositories
         /// <param name="formFiles">files</param>
         /// <param name="key">s3 key</param>
         /// <returns>AddFileResponse<see cref="AddFileResponse"/></returns>
-        public async Task<AddFileResponse> UploadFiles(string bucketName, IList<IFormFile> formFiles, string key)
+        public async Task<AddFileResponse> UploadFiles(string bucketName, string key, params IFormFile[] formFiles)
         {
             var response = new List<string>();
-
-            var fullKey = key.Equals(string.Empty) ? key : $"{key}/";
 
             foreach (var file in formFiles)
             {
                 var uploadRequest = new TransferUtilityUploadRequest
                 {
                     InputStream = file.OpenReadStream(),
-                    Key = fullKey + file.FileName,
+                    Key = key,
                     BucketName = bucketName,
-                    CannedACL = S3CannedACL.NoACL
+                    CannedACL = S3CannedACL.PublicRead,
+                    StorageClass = S3StorageClass.Standard,
+                    ContentType = file.ContentType
                 };
 
                 using (var fileTransferUtility = new TransferUtility(_s3Client))
@@ -96,7 +121,7 @@ namespace FacwareBase.API.Services.Amazon.S3.Infraestructure.Repositories
                 var expiryUrlRequest = new GetPreSignedUrlRequest
                 {
                     BucketName = bucketName,
-                    Key = fullKey + file.FileName,
+                    Key = key,
                     Expires = DateTime.Now.AddDays(1)
                 };
 
@@ -108,77 +133,6 @@ namespace FacwareBase.API.Services.Amazon.S3.Infraestructure.Repositories
             return new AddFileResponse
             {
                 PreSignedUrl = response
-            };
-        }
-
-        /// <summary>
-        /// List all key/files in a s3 bucket
-        /// </summary>
-        /// <param name="bucketName">bucket name</param>
-        /// <returns>ListFilesResponse<see cref="ListFilesResponse"/></returns>
-        public async Task<IEnumerable<ListFilesResponse>> ListFiles(string bucketName)
-        {
-            var responses = await _s3Client.ListObjectsAsync(bucketName);
-
-            return responses.S3Objects.Select(b => new ListFilesResponse
-            {
-                BucketName = b.BucketName,
-                Key = b.Key,
-                Owner = b.Owner.DisplayName,
-                Size = b.Size, 
-                LastModified = b.LastModified,
-                StorageClass = b.StorageClass
-            });
-        }
-
-        /// <summary>
-        /// Download file from s3 to local temp folder
-        /// </summary>
-        /// <param name="bucketName">bucket name</param>
-        /// <param name="fileName">file name</param>
-        /// <param name="temporalPath">temporal path to download</param>
-        /// <param name="key">s3 key: path</param>
-        /// <returns>task just to download file</returns>
-        public async Task DownloadFile(string bucketName, string fileName, string temporalPath, string key = "")
-        {
-	        var fullKey = key.Equals(string.Empty) ? $"{fileName}" : $"{key}/{fileName}";
-
-            GetObjectRequest request = new GetObjectRequest();
-            request.BucketName = bucketName;
-            request.Key = fullKey;
-            // GetObjectResponse response = await _s3Client.GetObjectAsync(request);
-
-            var downloadRequest = new TransferUtilityDownloadRequest
-            {
-                BucketName = bucketName,
-                Key = fileName,
-                FilePath = $"{temporalPath}{fileName}",
-            };
-
-			using var transferUtility = new TransferUtility(_s3Client);
-			await transferUtility.DownloadAsync(downloadRequest);
-		}
-
-        /// <summary>
-        /// Delete file from s3
-        /// </summary>
-        /// <param name="bucketName">bucket name</param>
-        /// <param name="fileName">file name /key</param>
-        /// <returns>DeleteFileResponse<see cref="DeleteFileResponse"/></returns>
-        public async Task<DeleteFileResponse> DeleteFile(string bucketName, string fileName)
-        {
-            var multiObjectDeleteRequest = new DeleteObjectsRequest
-            {
-                BucketName = bucketName
-            };
-
-            multiObjectDeleteRequest.AddKey(fileName);
-
-            var response = await _s3Client.DeleteObjectsAsync(multiObjectDeleteRequest);
-
-            return new DeleteFileResponse
-            {
-                NumberOfDeletedObjects = response.DeletedObjects.Count
             };
         }
 
@@ -204,26 +158,162 @@ namespace FacwareBase.API.Services.Amazon.S3.Infraestructure.Repositories
         }
 
         /// <summary>
+        /// Copy a file or key to another location
+        /// </summary>
+        /// <param name="sourceBucket">source bucket name</param>
+        /// <param name="sourceKey">source key</param>
+        /// <param name="targetBucket">target bucket name</param>
+        /// <param name="targetKey">traget key</param>
+        /// <returns>target key</returns>
+        public async Task<string> CopyKey(string sourceBucket, string sourceKey, string targetBucket, string targetKey)
+        {
+	        var copy = await _s3Client.CopyObjectAsync(sourceBucket, sourceKey, targetBucket, targetKey);
+	        return targetKey;
+        }
+
+        /// <summary>
+        /// Delete file from s3
+        /// </summary>
+        /// <param name="bucketName">bucket name</param>
+        /// <param name="key">s3 key /key</param>
+        /// <returns>DeleteFileResponse<see cref="DeleteFileResponse"/></returns>
+        public async Task<DeleteFileResponse> DeleteFile(string bucketName, string key)
+        {
+	        var multiObjectDeleteRequest = new DeleteObjectsRequest
+	        {
+		        BucketName = bucketName
+	        };
+
+	        multiObjectDeleteRequest.AddKey(key);
+
+	        var response = await _s3Client.DeleteObjectsAsync(multiObjectDeleteRequest);
+
+	        return new DeleteFileResponse
+	        {
+		        NumberOfDeletedObjects = response.DeletedObjects.Count
+	        };
+        }
+
+        /// <summary>
+        /// Download file from s3 to local temp folder
+        /// </summary>
+        /// <param name="bucketName">bucket name</param>
+        /// <param name="key">key = path + file name</param>
+        /// <param name="temporalPath">temporal path to download + file name</param>
+        /// <returns>task just to download file</returns>
+        public async Task DownloadFile(string bucketName, string key, string temporalPath)
+        {
+			GetObjectRequest request = new GetObjectRequest
+			{
+				BucketName = bucketName,
+				Key = key
+			};
+
+			var downloadRequest = new TransferUtilityDownloadRequest
+            {
+                BucketName = bucketName,
+                Key = key,
+                FilePath = temporalPath,
+            };
+
+            using var transferUtility = new TransferUtility(_s3Client);
+            await transferUtility.DownloadAsync(downloadRequest);
+        }
+
+        /// <summary>
+        /// Get file from s3 bucket
+        /// </summary>
+        /// <param name="bucketName">bucket name</param>
+        /// <param name="key">s3 key -  path + file name</param>
+        /// <returns><see cref="MemoryStream"/>Memory file object</returns>
+        public async Task<MemoryStream> DownloadMemoryStreamAsync(string bucketName, string key)
+        {
+            var memory = new MemoryStream();
+            try
+            {
+                var streamRequest = new TransferUtilityOpenStreamRequest
+                {
+                    BucketName = bucketName,
+                    Key = key
+                };
+
+                var request = new GetObjectRequest()
+                {
+                    BucketName = bucketName,
+                    Key = key
+                };
+
+                using (var transferUtility = new TransferUtility(_s3Client))
+                {
+                    var objectResponse = await transferUtility.S3Client.GetObjectAsync(request);
+
+                    var stream = objectResponse.ResponseStream;
+
+                    await stream.CopyToAsync(memory);
+                }
+
+                memory.Position = 0;
+
+                return memory;
+            }
+            catch (AmazonS3Exception e)
+            {
+                Console.Write("Error encountered on server. Message:'{0}' when writing an object", e.Message);
+            }
+            catch (Exception e)
+            {
+                Console.Write("Download fail", e.Message);
+            }
+
+            return memory;
+        }
+
+        /// <summary>
         /// Get json object
         /// </summary>
         /// <param name="bucketName">bucket name</param>
-        /// <param name="fileName">file name</param>
+        /// <param name="key">path + file name</param>
         /// <returns>GetJsonObjectResponse<see cref="GetJsonObjectResponse"/></returns>
-        public async Task<GetJsonObjectResponse> GetJsonObject(string bucketName, string fileName)
+        public async Task<GetJsonObjectResponse> GetJsonObject(string bucketName, string key)
         {
             var request = new GetObjectRequest
             {
                 BucketName = bucketName,
-                Key = fileName
+                Key = key
             };
 
             var response = await _s3Client.GetObjectAsync(request);
 
-            using (var reader = new StreamReader(response.ResponseStream))
-            {
-                var contents = reader.ReadToEnd();
-                return JsonConvert.DeserializeObject<GetJsonObjectResponse>(contents);
-            }
+			using var reader = new StreamReader(response.ResponseStream);
+			var contents = await reader.ReadToEndAsync();
+			return JsonConvert.DeserializeObject<GetJsonObjectResponse>(contents);
+		}
+
+        /// <summary>
+        /// Generate presigned url
+        /// </summary>
+        /// <param name="bucketName">bucket name</param>
+        /// <param name="key">file key</param>
+        /// <param name="expirationTime">time to expire url</param>
+        /// <returns></returns>
+        public AddSingleFileResponse GetPreSignedUrl(string bucketName, string key, DateTime expirationTime)
+        {
+	        var expiryUrlRequest = new GetPreSignedUrlRequest
+	        {
+		        BucketName = bucketName,
+		        Key = key,
+		        Expires = expirationTime
+	        };
+
+	        var url = _s3Client.GetPreSignedURL(expiryUrlRequest);
+
+	        var response = new AddSingleFileResponse()
+	        {
+		        PreSignedUrl = url, // temporal download url
+		        Key = key // Internal reference s3 key
+	        };
+
+	        return response;
         }
     }
 }
