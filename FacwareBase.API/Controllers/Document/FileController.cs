@@ -43,7 +43,7 @@ namespace FacwareBase.API.Controllers.Document
                 return BadRequest("The request doesn't contain any files to be uploaded.");
             }
 
-            var response = await _filesRepository.UploadFiles(bucketName, formFiles, key);
+            var response = await _filesRepository.UploadFiles(bucketName, key, formFiles[0]);
 
             if (response == null)
             {
@@ -77,13 +77,16 @@ namespace FacwareBase.API.Controllers.Document
         [Route("{bucketName}/download/{fileName}")]
         public async Task<IActionResult> DownloadFile(string bucketName, string fileName)
         {
-	        var temporalPath = _fileStorageOptions.TemporalStorage;
+	        //var temporalPath = _fileStorageOptions.TemporalStorage;
 
-            await _filesRepository.DownloadFile(bucketName, fileName, temporalPath);
+         //   await _filesRepository.DownloadFile(bucketName, fileName, temporalPath);
 
-            var memoryFile = _fileManagement.ReadFileAsync(temporalPath, fileName).Result;
+         //   var memoryFile = _fileManagement.ReadFileAsync(temporalPath, fileName).Result;
 
-            _fileManagement.RemoveFile(temporalPath, fileName);
+         //   _fileManagement.RemoveFile(temporalPath, fileName);
+
+         var key = "test123/";
+			var memoryFile = await _filesRepository.DownloadMemoryStreamAsync(bucketName, key + fileName);
 
             var mimeType = _fileManagement.GetMimeType(fileName);
 
