@@ -7,7 +7,7 @@
     "originAccessIdentity": {
       "Description": "OAL for cloud drstribution",
       "Type": "String",
-      "Default": "origin-access-identity/cloudfront/E2CD7HCQYO051D"
+      "Default": "origin-access-identity/cloudfront/34CD7HCQYO051R"
     },
     "madeBy": {
       "Description": "made by",
@@ -71,7 +71,7 @@
           "S3Bucket": "lambda-sourcecode",
           "S3Key": "lambda.zip"
         },
-        "Handler": "AWSPTUServerless::AWSPTUServerless.LambdaEntryPoint::FunctionHandlerAsync",
+        "Handler": "assembly::namespace.LambdaEntryPoint::FunctionHandlerAsync",
         "Role":  {
           "Fn::GetAtt": [
               "iamRole",

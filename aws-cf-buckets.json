@@ -1,0 +1,38 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Transform": "AWS::Serverless-2016-10-31",
+  "Description": "create buckets",
+
+  "Parameters": {
+    "prefixListName": {
+        "Description": "prefix for a service",
+        "Type": "CommaDelimitedList",
+        "Default": "s3, iamr,iamg,iamp,lamb,cf,cfrm,apig,wapf,dydb,rdsi,nsg,rds"
+    },
+    "madeBy": {
+      "Description": "made by",
+      "Type": "String",
+      "Default": "luis.espinoza@facware.com"
+    }
+  },
+
+  "Resources": {
+    "s3Bucket": {
+        "Type": "AWS::S3::Bucket",
+        "Properties": {
+            "BucketName": "bucketdemo",
+            "Tags":[
+              { "Key" : "madeBy", "Value" : { "Ref": "madeBy" } }
+            ]
+      },
+      "DeletionPolicy" : "Delete"
+    }         
+  },
+
+  "Outputs" : {
+    "WebsiteURL" : {
+       "Value" : { "Fn::GetAtt" : [ "s3Bucket", "WebsiteURL" ] },
+       "Description" : "URL to store source code"
+    }
+  }
+}

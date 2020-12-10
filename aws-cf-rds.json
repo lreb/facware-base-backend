@@ -1,0 +1,121 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Transform": "AWS::Serverless-2016-10-31",
+  "Description": "RDS",
+
+  "Parameters": {
+    "prefixListName": {
+      "Description": "prefix for a service",
+      "Type": "CommaDelimitedList",
+      "Default": "s3, iamr,iamg,iamp,lamb,cf,cfrm,apig,wapf,dydb,rdsi,nsg,rds"
+    },
+    "madeBy": {
+      "Description": "made by",
+      "Type": "String",
+      "Default": "luis.espinoza@facware.com"
+    },
+    
+
+    "vpcSecurityGroups": {
+      "Type": "CommaDelimitedList",
+      "Description": "List of SecurityGroupIds (VPC)",
+      "Default": "sg-1"  
+    },
+    "dbEngine": {
+      "Description": "https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html#cfn-rds-dbinstance-engine",
+      "Type": "String",
+      "Default": "postgres"
+    },
+    "dbVersion": {
+      "Description": "RDS -> Subnet groups",
+      "Type": "Number",
+      "Default": 11.8
+    },
+    "dbPort": {
+      "Description": "Port number",
+      "Type": "String",
+      "Default": "5432"
+    },
+    "dBName": {
+        "Default": "facware",
+        "Description": "Data base name",
+        "Type": "String",
+        "MinLength": "1",
+        "MaxLength": "64",
+        "AllowedPattern": "[a-zA-Z][a-zA-Z0-9]*",
+        "ConstraintDescription": "Must begin with a letter and contain only alphanumeric characters."
+    },
+    "dBInstanceClass": {
+        "Default": "db.t2.micro",
+        "Description": "DB instance class",
+        "Type": "String",
+        "ConstraintDescription": "Must select a valid DB instance type."
+    },
+    "dBAllocatedStorage": {
+        "Default": "20",
+        "Description": "The size of the database (GiB)",
+        "Type": "Number",
+        "MinValue": "5",
+        "MaxValue": "1024",
+
+        "ConstraintDescription": "must be between 20 and 65536 GiB."
+    },
+    "dBUsername": {
+      "NoEcho": "true",
+      "Description": "Username for database access",
+      "Type": "String"
+    },
+    "dBPassword": {
+      "NoEcho": "true",
+      "Description": "Password for database access",
+      "Type": "String"
+    }
+  },
+
+  "Resources": {
+    "dbSubnetGroup": {
+      "Type": "AWS::RDS::DBSubnetGroup",
+      "Properties": {
+          "DBSubnetGroupDescription": "RDS subnet group",
+          "SubnetIds": [
+              "subnet-1",
+              "subnet-2"
+          ],
+          "Tags":[
+            { "Key" : "madeBy", "Value" : { "Ref": "madeBy" } }
+          ]
+      }
+    },
+    "projectDatabase": {
+      "Type" : "AWS::RDS::DBInstance",
+      "Properties" : {
+        "AllocatedStorage" : { "Ref": "dBAllocatedStorage" },
+        "AllowMajorVersionUpgrade" : false,
+        "AutoMinorVersionUpgrade" : true,
+        "BackupRetentionPeriod": 0,
+        "DBInstanceClass": { "Ref": "dBInstanceClass" },
+        "DBInstanceIdentifier" : "rds-name",
+      "DBName": { "Ref": "dBName" },
+      "DBSubnetGroupName": { "Ref": "dbSubnetGroup" },  
+      "DeleteAutomatedBackups" : true,
+      "DeletionProtection" : false,
+      "EnableIAMDatabaseAuthentication" : false,
+      "EnablePerformanceInsights" : false,
+      "Engine" : { "Ref": "dbEngine" },  
+      "EngineVersion" : { "Ref": "dbVersion" },
+      "MasterUsername" : { "Ref": "dBUsername" },
+      "MasterUserPassword" : { "Ref": "dBPassword" },
+      "MultiAZ" : false,
+      "Port" : { "Ref": "dbPort" },
+      "PubliclyAccessible" : false,
+      "StorageEncrypted" : false,
+      "StorageType" : "gp2",
+      "Tags":[
+        { "Key" : "madeBy", "Value" : { "Ref": "madeBy" } }
+      ],
+      "VPCSecurityGroups" : { "Ref": "vpcSecurityGroups" } }
+    }
+     
+  }
+
+}
