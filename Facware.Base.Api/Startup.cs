@@ -2,15 +2,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Facware.Base.Api.Extensions.Database;
+using Facware.Base.Database;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Facware.Base.Api.Helpers;
 
 namespace Facware.Base.Api
 {
@@ -18,14 +22,35 @@ namespace Facware.Base.Api
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            _configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        public IConfiguration _configuration { get; }
+
+        /// <summary>
+        /// Load configuration settings
+        /// </summary>
+        /// <param name="services"></param>
+        private void ConfigureConfigSettings(IServiceCollection services)
+        {
+            services
+               .AddOptions()
+               .Configure<ConnectionStrings>(_configuration.GetSection(nameof(ConnectionStrings)));
+        }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            #region Database context service
+
+            var cn = _configuration.GetSection("ConnectionStrings:FacwareConnectionString");
+
+            // TODO: before use this, create your own dbcontext
+            services.UsePostgreSqlServer(cn.Value);
+
+            // in memory db
+            // services.UseInMemoryDatabase();
+            #endregion
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

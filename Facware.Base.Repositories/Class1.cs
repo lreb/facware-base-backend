@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Facware.Base.Models
+namespace Facware.Base.Repositories
 {
     public class Class1
     {
