@@ -11,6 +11,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Facware.Base.Models", "Facw
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Facware.Base.Database.Access", "Facware.Base.Database.Access\Facware.Base.Database.Access.csproj", "{A57A66D0-5AB8-4F10-8DDC-8856BDC3A4DD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Facware.Api", "Facware.Api\Facware.Api.csproj", "{47EFADC2-A1E9-469F-ABEA-5650111CA298}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Facware.Data.Access", "Facware.Data.Access\Facware.Data.Access.csproj", "{35F3CCFF-FE63-4B92-96F7-AA45AE20995D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Facware.Models", "Facware.Models\Facware.Models.csproj", "{AD281B1D-A50E-4C8C-B29C-BF33B3FD53B2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,5 +78,41 @@ Global
 		{A57A66D0-5AB8-4F10-8DDC-8856BDC3A4DD}.Release|x64.Build.0 = Release|Any CPU
 		{A57A66D0-5AB8-4F10-8DDC-8856BDC3A4DD}.Release|x86.ActiveCfg = Release|Any CPU
 		{A57A66D0-5AB8-4F10-8DDC-8856BDC3A4DD}.Release|x86.Build.0 = Release|Any CPU
+		{47EFADC2-A1E9-469F-ABEA-5650111CA298}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47EFADC2-A1E9-469F-ABEA-5650111CA298}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47EFADC2-A1E9-469F-ABEA-5650111CA298}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{47EFADC2-A1E9-469F-ABEA-5650111CA298}.Debug|x64.Build.0 = Debug|Any CPU
+		{47EFADC2-A1E9-469F-ABEA-5650111CA298}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{47EFADC2-A1E9-469F-ABEA-5650111CA298}.Debug|x86.Build.0 = Debug|Any CPU
+		{47EFADC2-A1E9-469F-ABEA-5650111CA298}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47EFADC2-A1E9-469F-ABEA-5650111CA298}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47EFADC2-A1E9-469F-ABEA-5650111CA298}.Release|x64.ActiveCfg = Release|Any CPU
+		{47EFADC2-A1E9-469F-ABEA-5650111CA298}.Release|x64.Build.0 = Release|Any CPU
+		{47EFADC2-A1E9-469F-ABEA-5650111CA298}.Release|x86.ActiveCfg = Release|Any CPU
+		{47EFADC2-A1E9-469F-ABEA-5650111CA298}.Release|x86.Build.0 = Release|Any CPU
+		{35F3CCFF-FE63-4B92-96F7-AA45AE20995D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35F3CCFF-FE63-4B92-96F7-AA45AE20995D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35F3CCFF-FE63-4B92-96F7-AA45AE20995D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{35F3CCFF-FE63-4B92-96F7-AA45AE20995D}.Debug|x64.Build.0 = Debug|Any CPU
+		{35F3CCFF-FE63-4B92-96F7-AA45AE20995D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{35F3CCFF-FE63-4B92-96F7-AA45AE20995D}.Debug|x86.Build.0 = Debug|Any CPU
+		{35F3CCFF-FE63-4B92-96F7-AA45AE20995D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35F3CCFF-FE63-4B92-96F7-AA45AE20995D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35F3CCFF-FE63-4B92-96F7-AA45AE20995D}.Release|x64.ActiveCfg = Release|Any CPU
+		{35F3CCFF-FE63-4B92-96F7-AA45AE20995D}.Release|x64.Build.0 = Release|Any CPU
+		{35F3CCFF-FE63-4B92-96F7-AA45AE20995D}.Release|x86.ActiveCfg = Release|Any CPU
+		{35F3CCFF-FE63-4B92-96F7-AA45AE20995D}.Release|x86.Build.0 = Release|Any CPU
+		{AD281B1D-A50E-4C8C-B29C-BF33B3FD53B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD281B1D-A50E-4C8C-B29C-BF33B3FD53B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD281B1D-A50E-4C8C-B29C-BF33B3FD53B2}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{AD281B1D-A50E-4C8C-B29C-BF33B3FD53B2}.Debug|x64.Build.0 = Debug|Any CPU
+		{AD281B1D-A50E-4C8C-B29C-BF33B3FD53B2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AD281B1D-A50E-4C8C-B29C-BF33B3FD53B2}.Debug|x86.Build.0 = Debug|Any CPU
+		{AD281B1D-A50E-4C8C-B29C-BF33B3FD53B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD281B1D-A50E-4C8C-B29C-BF33B3FD53B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD281B1D-A50E-4C8C-B29C-BF33B3FD53B2}.Release|x64.ActiveCfg = Release|Any CPU
+		{AD281B1D-A50E-4C8C-B29C-BF33B3FD53B2}.Release|x64.Build.0 = Release|Any CPU
+		{AD281B1D-A50E-4C8C-B29C-BF33B3FD53B2}.Release|x86.ActiveCfg = Release|Any CPU
+		{AD281B1D-A50E-4C8C-B29C-BF33B3FD53B2}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
