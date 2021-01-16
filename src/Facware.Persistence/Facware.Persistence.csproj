@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\OA.Domain\OA.Domain.csproj" />
+    <ProjectReference Include="..\Facware.Domain\Facware.Domain.csproj" />
   </ItemGroup>
   
 </Project>
