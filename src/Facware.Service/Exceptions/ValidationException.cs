@@ -25,7 +25,7 @@ namespace Facware.Service.Exceptions
                 var propertyFailures = failures
                     .Where(e => e.PropertyName == propertyName)
                     .Select(e => e.ErrorMessage)
-                    .TFacwarerray();
+                    .ToArray();
 
                 Failures.Add(propertyName, propertyFailures);
             }
