@@ -4,5 +4,161 @@
         <name>Facware.Infraestructure</name>
     </assembly>
     <members>
+        <member name="T:FacwareBase.API.Extensions.Authentication.JwtExtension">
+            <summary>
+            Utility to JWT
+            </summary>
+        </member>
+        <member name="F:FacwareBase.API.Extensions.Authentication.JwtExtension.JwtOptionsSection">
+            <summary>
+            app setting for okta
+            </summary>
+        </member>
+        <member name="M:FacwareBase.API.Extensions.Authentication.JwtExtension.ConfigureJwt(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            enables okata service
+            </summary>
+            <param name="services">application service <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/></param>
+            <param name="configuration">application configuratio <see cref="T:Microsoft.Extensions.Configuration.IConfiguration"/></param>
+        </member>
+        <member name="T:FacwareBase.Api.Extensions.Swagger.SwaggerExtension">
+            <summary>
+            Swagger extension
+            </summary>
+        </member>
+        <member name="M:FacwareBase.Api.Extensions.Swagger.SwaggerExtension.ConfigureSwaggerExtension(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Method to configure the Swagger Services within the Application services interface
+            </summary>
+            <param name="services">The Service Collection <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/></param>
+            <param name="config">The Service Collection <see cref="T:Microsoft.Extensions.Configuration.IConfiguration"/></param>
+        </member>
+        <member name="M:FacwareBase.Api.Extensions.Swagger.SwaggerExtension.EnableSwaggerPipeline(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Enable Swagger pipeline
+            </summary>
+            <param name="app">application configuration <see cref="T:Microsoft.AspNetCore.Builder.IApplicationBuilder"/></param>
+            <param name="config">application settings <see cref="T:Microsoft.Extensions.Configuration.IConfiguration"/></param>
+        </member>
+        <member name="T:Facware.Infrastructure.Extension.Cors.CorsExtension">
+            <summary>
+            Extension to setup CORS configuration
+            </summary>
+        </member>
+        <member name="F:Facware.Infrastructure.Extension.Cors.CorsExtension.AllowSpecificOrigins">
+            <summary>
+            Policy cors name
+            </summary>
+        </member>
+        <member name="M:Facware.Infrastructure.Extension.Cors.CorsExtension.ConfigureCors(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            CORS configurations
+            </summary>
+            <param name="services">application service <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/></param>
+            <param name="configuration">app settings configuration <see cref="T:Microsoft.Extensions.Configuration.IConfiguration"/></param>
+        </member>
+        <member name="T:Facware.Infrastructure.Extension.Database.MicrosoftSqlExtension">
+            <summary>
+            The Service Collection Extensions
+            </summary>
+            <seealso cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/>
+        </member>
+        <member name="M:Facware.Infrastructure.Extension.Database.MicrosoftSqlExtension.UseInMemoryDatabase(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Set up the Service SQL DB Context
+            </summary>
+            <param name="serviceCollection">The <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/></param>
+        </member>
+        <member name="M:Facware.Infrastructure.Extension.Database.MicrosoftSqlExtension.UseSqlServer(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String)">
+            <summary>
+            Set up the Service SQL DB Context
+            </summary>
+            <param name="serviceCollection">The <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/></param>
+            <param name="applicationConfigurationConnectionString">The data migration connection string</param>
+        </member>
+        <member name="T:Facware.Infrastructure.Extension.Database.PostgreSQLExtension">
+            <summary>
+            The Service Collection Extensions
+            </summary>
+            <seealso cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/>
+        </member>
+        <member name="M:Facware.Infrastructure.Extension.Database.PostgreSQLExtension.UsePostgreSqlServer(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String)">
+            <summary>
+            Set up the Service PostgreSQL DB Context
+            </summary>
+            <param name="serviceCollection">The <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/></param>
+            <param name="applicationConfigurationConnectionString">The data migration connection string</param>
+        </member>
+        <member name="T:Facware.Infrastructure.Extension.DependencyInjection.DependencyInyectionExtension">
+            <summary>
+            register all dependencies
+            </summary>
+        </member>
+        <member name="M:Facware.Infrastructure.Extension.DependencyInjection.DependencyInyectionExtension.JwtDependency(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Enables JWT features
+            </summary>
+            <param name="services">Application services<see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/></param>
+        </member>
+        <member name="M:Facware.Infrastructure.Extension.DependencyInjection.DependencyInyectionExtension.AwsStorageDependency(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            enables AWS storage
+            </summary>
+            <param name="services">Application services<see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/></param>
+            <param name="configuration"></param>
+        </member>
+        <member name="M:Facware.Infrastructure.Extension.DependencyInjection.DependencyInyectionExtension.FileManagementDependency(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            file management dependencies
+            </summary>
+            <param name="services">Application services<see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/></param>
+        </member>
+        <member name="T:Facware.Infrastructure.Extension.Environment.HostingEnvironmentExtension">
+            <summary>
+            Custom environments extension
+            </summary>
+        </member>
+        <member name="F:Facware.Infrastructure.Extension.Environment.HostingEnvironmentExtension.QualityAssurance">
+            <summary>
+            Quality assurance environment
+            </summary>
+        </member>
+        <member name="F:Facware.Infrastructure.Extension.Environment.HostingEnvironmentExtension.Local">
+            <summary>
+            Local environment
+            </summary>
+        </member>
+        <member name="M:Facware.Infrastructure.Extension.Environment.HostingEnvironmentExtension.IsQA(Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
+            <summary>
+             Checks if the current host environment name is quality assurance.
+            </summary>
+            <param name="hostingEnvironment">An instance of <see cref="T:Microsoft.AspNetCore.Hosting.IWebHostEnvironment"/>.</param>
+            <returns>True if the environment name is quality assurance.</returns>
+        </member>
+        <member name="M:Facware.Infrastructure.Extension.Environment.HostingEnvironmentExtension.IsLocal(Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
+            <summary>
+             Checks if the current host environment name is Local.
+            </summary>
+            <param name="hostingEnvironment">An instance of <see cref="T:Microsoft.AspNetCore.Hosting.IWebHostEnvironment"/>.</param>
+            <returns>True if the environment name is local</returns>
+        </member>
+        <member name="T:Facware.Infrastructure.Extension.HealthCheck.CustomHealthCheckExtension">
+            <summary>
+            Custom health check
+            </summary>
+        </member>
+        <member name="F:Facware.Infrastructure.Extension.HealthCheck.CustomHealthCheckExtension._config">
+            <summary>
+            App settings data DI
+            </summary>
+        </member>
+        <member name="M:Facware.Infrastructure.Extension.HealthCheck.CustomHealthCheckExtension.CheckHealthAsync(Microsoft.Extensions.Diagnostics.HealthChecks.HealthCheckContext,System.Threading.CancellationToken)">
+            <summary>
+            custom health check 
+            </summary>
+            <param name="context">Health check context <see cref="T:Microsoft.Extensions.Diagnostics.HealthChecks.HealthCheckContext"/></param>
+            <param name="cancellationToken">cancellation token <see cref="T:System.Threading.CancellationToken"/></param>
+            <returns></returns>
+        </member>
     </members>
 </doc>
