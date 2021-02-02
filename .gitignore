@@ -431,3 +431,10 @@ $RECYCLE.BIN/
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+
+# Facware Base API
+FacwareBase.API/AWSLambda/
+FacwareBase.API/PublishAWSLambda/
+
+src/.vscode

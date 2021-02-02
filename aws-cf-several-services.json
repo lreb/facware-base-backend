@@ -1,0 +1,342 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Transform": "AWS::Serverless-2016-10-31",
+  "Description": "backend and front end resources",
+
+  "Parameters": {
+    "prefixListName": {
+      "Description": "prefix for a service",
+      "Type": "CommaDelimitedList",
+      "Default": "s3, iamr,iamg,iamp,lamb,cf,cfrm,apig,wapf,dydb,rdsi,nsg,rds"
+    },
+    "madeBy": {
+      "Description": "made by",
+      "Type": "String",
+      "Default": "luis_espinoza@facware.com"
+    },
+    "originAccessIdentity": {
+      "Description": "OAL for cloud drstribution",
+      "Type": "String",
+      "Default": "origin-access-identity/cloudfront/99CD7H123O051R"
+    },
+    "apiEndpointType": {
+      "Description": "api gw type",
+      "Type": "String",
+      "Default": "REGIONAL"
+    },
+    "environmentReference": {
+      "Description": "set environment for resources",
+      "Type": "String",
+      "Default": "Staging"
+    },
+    "securityGroups": {
+      "Type": "CommaDelimitedList",
+      "Description": "The list of SecurityGroupIds VPC security group",
+      "Default": "sg-1"
+    },
+    "subnetIds": {
+      "Type": "CommaDelimitedList",
+      "Description": "The list of Subnets Ids ",
+      "Default": "subnet-1, subnet-2"
+    },
+    "vpcIds": {
+      "Type": "CommaDelimitedList",
+      "Description": "The list of VPC Ids",
+      "Default": "vpc-identifier001"
+    }
+  },
+
+  "Resources": {
+    "s3Bucket": {
+        "Type": "AWS::S3::Bucket",
+        "Properties": {
+          "AccessControl" : "PublicRead",
+          "BucketName": "bucket-client",
+          "Tags":[
+            { "Key" : "madeBy", "Value" : { "Ref": "madeBy" } }
+          ],
+          "WebsiteConfiguration": {
+            "IndexDocument": "index.html",
+            "ErrorDocument" : "index.html"
+          } 
+        }
+    },
+
+    "s3BucketPolicy" : {
+      "Type" : "AWS::S3::BucketPolicy",
+      "Properties" : {
+        "Bucket" : {"Ref" : "s3Bucket"},
+        "PolicyDocument": {
+          "Statement":[{
+          "Action":["s3:GetObject"],
+          "Effect":"Allow",
+          "Resource": { "Fn::Join" : ["", ["arn:aws:s3:::", { "Ref" : "s3Bucket" } , "/*" ]]},
+          "Principal":"*"
+          }]
+        }
+      }
+    },
+
+    "lambdaIamRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+          "AssumeRolePolicyDocument": { 
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Action": "sts:AssumeRole",
+                "Effect": "Allow",
+                "Principal": {
+                  "Service": [
+                    "lambda.amazonaws.com",
+                    "edgelambda.amazonaws.com"
+                  ]
+                }
+              }
+            ]
+          },
+          "Description": "give permission to lambda function to execute, run under vpc",
+          "ManagedPolicyArns": [
+            "arn:aws:iam::aws:policy/AWSLambdaExecute",
+            "arn:aws:iam::aws:policy/AmazonRDSDataFullAccess",
+            "arn:aws:iam::aws:policy/AmazonAPIGatewayInvokeFullAccess",
+            "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole",
+            "arn:aws:iam::aws:policy/AmazonS3FullAccess"
+          ],
+          "Path": "/",
+          "RoleName": "role1",
+          "Tags":[
+            { "Key" : "madeBy", "Value" : { "Ref": "madeBy" } }
+          ]
+      }
+    },
+
+    "apiGatewayIamRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+          "AssumeRolePolicyDocument": { 
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Effect": "Allow",
+                "Principal": {
+                  "Service": [
+                    "apigateway.amazonaws.com"
+                  ]
+                },
+                "Action": "sts:AssumeRole"
+              }
+            ]
+          },
+          "Description": "api role",
+          "Path": "/",
+          "Policies": [
+            {
+              "PolicyName": "LambdaAccess",
+              "PolicyDocument": {
+                "Version": "2012-10-17",
+                "Statement": [
+                  {
+                    "Effect": "Allow",
+                    "Action": "lambda:InvokeFunction",
+                    "Resource": { "Fn::GetAtt" : [ "lambdaFunction", "Arn" ] }
+                  }
+                ]
+              }
+            }
+          ],
+
+          "RoleName": "role2",
+          "Tags":[
+            { "Key" : "madeBy", "Value" : { "Ref": "madeBy" } }
+          ]
+      }
+    },
+
+    "lambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": "bucketdemo",
+          "S3Key": "backend/Api.zip"
+        },
+        "Environment" : {
+          "Variables" : {
+            "ASPNETCORE_ENVIRONMENT" : { "Ref": "environmentReference" }
+          }
+        },
+        "Handler": "assembly::namespace::FunctionHandlerAsync",
+        "Role":  { "Fn::GetAtt": ["lambdaIamRole", "Arn"] },
+        "Runtime": "dotnetcore3.1",
+        "FunctionName": "api-function",
+        "MemorySize": 512,
+        "Timeout": 300,
+        "Description": "Serverless to deploy the API ",
+        "Tags":[
+          { "Key" : "madeBy", "Value" : { "Ref": "madeBy" } }
+        ],
+        "VpcConfig" : {
+          "SecurityGroupIds" : { "Ref": "securityGroups" },
+          "SubnetIds" : { "Ref": "subnetIds" }
+        }
+      }
+    },
+
+    "lambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": "bucketdemo",
+          "S3Key": "lambda-functions/function.zip"
+        },
+        "Environment" : {
+          "Variables" : {
+            "ASPNETCORE_ENVIRONMENT" : { "Ref": "environmentReference" }
+          }
+        },
+        "Handler": "assembly::namespace.Function::FunctionHandler",
+        "Role":  { "Fn::GetAtt": ["lambdaIamRole", "Arn"] },
+        "Runtime": "dotnetcore3.1",
+        "FunctionName": "lambda-function",
+        "MemorySize": 512,
+        "Timeout": 300,
+        "Description": "Function",
+        "Tags":[
+          { "Key" : "madeBy", "Value" : { "Ref": "madeBy" } }
+        ],
+        "VpcConfig" : {
+          "SecurityGroupIds" : { "Ref": "securityGroups" },
+          "SubnetIds" : { "Ref": "subnetIds" }
+        }
+      }
+    },
+
+    "apiGateway": {
+      "Type" : "AWS::ApiGateway::RestApi",
+      "Properties" : {
+          "ApiKeySourceType": "HEADER",
+          "BinaryMediaTypes" : [ "*/*", "application/octet-stream" ],
+          "Description" : "top 10 app interface to execute lambda function serverless",
+          "EndpointConfiguration": {
+            "Types": [
+              { "Ref": "apiEndpointType"}
+            ]
+          },
+          "Name" : "api-gateway",
+          "Tags":[
+            { "Key" : "madeBy", "Value" : { "Ref": "madeBy" } }
+          ]
+        }
+    },
+    
+    "resourceAPI": {
+      "Type" : "AWS::ApiGateway::Resource",
+      "Properties" : {
+          "ParentId" : {
+            "Fn::GetAtt": [
+                "apiGateway",
+                "RootResourceId"
+            ]
+          },
+          "PathPart" : "{proxy+}",
+          "RestApiId" : { "Ref": "apiGateway" }
+        },
+        "DependsOn": [
+          "apiGateway"
+        ]
+    },
+
+    "methodApi": {
+      "Type" : "AWS::ApiGateway::Method",
+      "Properties" : {
+          "ApiKeyRequired" : false,
+          "AuthorizationType": "NONE",
+          "HttpMethod" : "ANY",
+          "Integration": {
+            "CacheKeyParameters" : [ "method.request.path.proxy" ],
+            "Credentials": { "Fn::GetAtt" : [ "apiGatewayIamRole", "Arn" ] },
+            "Type": "AWS_PROXY",
+            "IntegrationHttpMethod": "POST",
+            "IntegrationResponses" : [
+              { "StatusCode": 200 }
+            ],
+            "PassthroughBehavior": "WHEN_NO_MATCH",
+            "RequestParameters": {
+              "integration.request.path.proxy": "method.request.path.proxy"
+            },
+            "Uri": {
+              "Fn::Join": [
+                "", [
+                  "arn:aws:apigateway:",
+                  {
+                    "Ref": "AWS::Region"
+                  },
+                  ":lambda:path/2015-03-31/functions/",
+                  {
+                    "Fn::GetAtt" : [ "lambdaFunction", "Arn" ]
+                  },
+                  "/invocations"
+                ]
+              ]
+            }
+          },
+          "OperationName" : "proxy method to execute lambda",
+          "RequestParameters": {
+            "method.request.path.proxy": true
+          },
+          "ResourceId" : { "Ref": "resourceAPI" },
+          "RestApiId" : { "Ref": "apiGateway" }
+        },
+        "DependsOn": [
+          "resourceAPI"
+        ]
+    },
+
+    "lambdaPermission": {
+      "Type" : "AWS::Lambda::Permission",
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": { "Fn::GetAtt" : [ "lambdaFunction", "Arn" ] },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceAccount": { "Ref": "AWS::AccountId" },
+        "SourceArn": { 
+          "Fn::Join": [ 
+            "", [
+              "arn:aws:execute-api:",
+              { "Ref": "AWS::Region" }, ":",
+              { "Ref": "AWS::AccountId" }, ":",
+              { "Ref": "apiGateway" },
+              "/*/*/*"
+            ] 
+          ] 
+        }
+      }
+    },
+
+    "deploymentDevelopment": {
+      "Type" : "AWS::ApiGateway::Deployment",
+      "Properties" : {
+        "Description" : "Deployment to development environment",
+        "RestApiId" : { "Ref": "apiGateway" },
+        "StageName" : "development"
+      },
+      "DependsOn": [
+        "apiGateway",
+        "methodApi"
+      ]
+    }
+  },
+
+  "Outputs" : {
+    "WebsiteURL" : {
+       "Value" : { "Fn::GetAtt" : [ "s3Bucket", "WebsiteURL" ] },
+       "Description" : "URL for website hosted on S3"
+    },
+    "S3BucketSecureURL" : {
+       "Value" : { "Fn::Join" : [
+          "", [ "https://", { "Fn::GetAtt" : [ "s3Bucket", "DomainName" ] } ]
+       ] },
+       "Description" : "S3 bucket to hold website content"
+    }
+  }
+}

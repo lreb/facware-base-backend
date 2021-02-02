@@ -26,19 +26,19 @@ namespace FacwareBase.Api.Extensions.OData
 			return builder.GetEdmModel();
 		}
 
-    /// <summary>
+		/// <summary>
 		/// Generates the OData IEdm Models based on the DB Tables/Models extension method
 		/// </summary>
 		/// <param name="app"></param>
 		/// <returns><see cref="IEdmModel"/></returns>
-    public static IEdmModel GetODataModels(this IApplicationBuilder app)
+		public static IEdmModel GetODataModels(this IApplicationBuilder app)
 		{
 			ODataModelBuilder builder = new ODataConventionModelBuilder(app.ApplicationServices).EnableLowerCamelCase();
 
 			builder.EntitySet<Song>("Songs");
 			builder.EntitySet<Album>("Album");
 
-      return builder.GetEdmModel();
-	  }
-  }
+			return builder.GetEdmModel();
+		}
+	}
 }

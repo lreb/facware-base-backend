@@ -2,7 +2,6 @@ using System.Data;
 using FacwareBase.API.Helpers.Domain.POCO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-// using QSS.DataAccess.DataContext;
 
 namespace FacwareBase.Api.Extensions
 {
@@ -19,8 +18,9 @@ namespace FacwareBase.Api.Extensions
         public static void UseInMemoryDatabase(this IServiceCollection serviceCollection)
         {
           // TODO: use your context
-          serviceCollection.AddDbContext<MusicContext>(opts => opts.UseInMemoryDatabase("AlbumsDB"));
-          // https://medium.com/@sddkal/using-odata-controller-in-net-core-apis-63b688585eaf
+          serviceCollection.AddDbContext<MusicContext>(opts => 
+            opts.UseInMemoryDatabase("AlbumsDB")
+            .EnableSensitiveDataLogging());
         }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace FacwareBase.Api.Extensions
         public static void UseSqlServer(this IServiceCollection serviceCollection, string applicationConfigurationConnectionString)
         {
           // TODO: use your context
-          //serviceCollection.AddDbContext<QSSContext>(o => o.UseSqlServer(applicationConfigurationConnectionString));
+          //serviceCollection.AddDbContext<Context>(o => o.UseSqlServer(applicationConfigurationConnectionString));
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace FacwareBase.Api.Extensions
           // https://www.npgsql.org/efcore/index.html#additional-configuration-for-aspnet-core-applications
 
           // TODO: use your context
-          //serviceCollection.AddDbContext<QSSContext>(options => options.UseNpgsql(applicationConfigurationConnectionString));
+          //serviceCollection.AddDbContext<Context>(options => options.UseNpgsql(applicationConfigurationConnectionString));
         }
 
     }

@@ -1,0 +1,94 @@
+trigger:
+- master
+- staging
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  ${{ if eq(variables['Build.SourceBranchName'], 'master') }}:
+    PipelineVars.ReleaseType: Release
+  ${{ if ne(variables['Build.SourceBranchName'], 'master') }}:
+    PipelineVars.ReleaseType: Debug
+
+jobs:
+- job: Client
+  displayName: Build and Publish Client artifact
+  steps:
+  - task: Npm@1
+    displayName: NPM Install
+    inputs:
+      command: 'install'
+      workingDir: 'Applications/Facware-Client'
+  - task: Npm@1
+    displayName: Build Client
+    condition: eq(variables['PipelineVars.ReleaseType'], 'Debug')
+    inputs:
+      command: 'custom'
+      workingDir: 'Applications/Facware-Client'
+      customCommand: 'run build-stg'
+  - task: Npm@1
+    displayName: Build Client
+    condition: eq(variables['PipelineVars.ReleaseType'], 'Release')
+    inputs:
+      command: 'custom'
+      workingDir: 'Applications/Facware-Client'
+      customCommand: 'run build-prd'
+  - bash: cp "Applications/Facware-Client/web.config" "Applications/Facware-Client/dist"
+    displayName: Add Web Config
+  - task: ArchiveFiles@2
+    displayName: ZIP Client Files
+    inputs:
+      rootFolderOrFile: 'Applications/Facware-Client/dist'
+      includeRootFolder: false
+      archiveType: 'zip'
+      archiveFile: '$(Build.ArtifactStagingDirectory)/client/client.zip'
+      replaceExistingArchive: true
+  - task: PublishBuildArtifacts@1
+    displayName: Publish Client Artifact
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)/client'
+      ArtifactName: 'client'
+      publishLocation: 'Container'
+- job: API
+  displayName: Build and Publish API artifact
+  steps:
+  - task: DotNetCoreCLI@2
+    displayName: Build API
+    inputs:
+      command: 'build'
+      projects: |
+        **/*.csproj
+        !**/*Tests.csproj
+      arguments: '--configuration $(PipelineVars.ReleaseType) --runtime win-x64'
+  - task: DotNetCoreCLI@2
+    displayName: Publish API
+    inputs:
+      command: 'publish'
+      publishWebProjects: false
+      projects: |
+        **/*.csproj
+        !**/*Tests.csproj
+      zipAfterPublish: false
+      workingDirectory: 'Applications/Facware-Backend'
+      arguments: '--configuration $(PipelineVars.ReleaseType) --no-build --no-restore --self-contained --runtime win-x64 -o dist'
+      modifyOutputPath: true
+  - bash: |
+      rm Applications/Facware-Backend/dist/Facware-Backend/appsettings.json
+      mv Applications/Facware-Backend/dist/Facware-Backend/appsettings.Development.json Applications/Facware-Backend/dist/Facware-Backend/appsettings.json
+    displayName: Copy Development appsettings for Debug
+    condition: eq(variables['PipelineVars.ReleaseType'], 'Debug')
+  - task: ArchiveFiles@2
+    displayName: ZIP API Files
+    inputs:
+      rootFolderOrFile: 'Applications/Facware-Backend/dist/Facware-Backend'
+      includeRootFolder: false
+      archiveType: 'zip'
+      archiveFile: '$(Build.ArtifactStagingDirectory)/api/api.zip'
+      replaceExistingArchive: true
+  - task: PublishBuildArtifacts@1
+    displayName: Publish API Artifact
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)/api'
+      ArtifactName: 'api'
+      publishLocation: 'Container'
