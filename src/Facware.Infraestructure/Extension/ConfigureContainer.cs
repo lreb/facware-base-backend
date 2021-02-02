@@ -19,8 +19,10 @@ namespace Facware.Infrastructure.Extension
 
             app.UseSwaggerUI(setupAction =>
             {
-                setupAction.SwaggerEndpoint("/swagger/OpenAPISpecification/swagger.json", "Onion Architecture API");
-                setupAction.RoutePrefix = "OpenAPI";
+                //setupAction.SwaggerEndpoint("/swagger/OpenAPISpecification/swagger.json", "Facware");
+                setupAction.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                // setupAction.RoutePrefix = "OpenAPI";
+                //setupAction.RoutePrefix = string.Empty;
             });
         }
 

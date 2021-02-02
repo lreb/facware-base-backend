@@ -14,7 +14,9 @@ using Facware.Persistence;
 using Facware.Service;
 using Serilog;
 using System;
+using System.Net;
 using System.IO;
+using System.Reflection;
 
 namespace Facware
 {
@@ -46,7 +48,9 @@ namespace Facware
 
             services.AddTransientServices();
 
-            services.AddSwaggerOpenAPI();
+            var xmlCommentsFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            var xmlCommentsFullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentsFile);
+            services.AddSwaggerOpenAPI(xmlCommentsFullPath);
 
             services.AddMailSetting(Configuration);
 

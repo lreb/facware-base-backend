@@ -52,54 +52,55 @@ namespace Facware.Infrastructure.Extension
 
 
 
-        public static void AddSwaggerOpenAPI(this IServiceCollection serviceCollection)
+        public static void AddSwaggerOpenAPI(this IServiceCollection serviceCollection, 
+            string xmlCommentsFullPath)
         {
             serviceCollection.AddSwaggerGen(setupAction =>
             {
 
-                setupAction.SwaggerDoc(
-                    "OpenAPISpecification",
-                    new OpenApiInfo()
-                    {
-                        Title = "Onion Architecture WebAPI",
-                        Version = "1",
-                        Description = "Through this API you can access customer details",
-                        Contact = new OpenApiContact()
-                        {
-                            Email = "luis.espinoza@facware.com",
-                            Name = "Luis Espinoza",
-                            Url = new Uri("https://facware.com/")
-                        },
-                        License = new OpenApiLicense()
-                        {
-                            Name = "MIT License",
-                            Url = new Uri("https://opensource.org/licenses/MIT")
-                        }
-                    });
+                // setupAction.SwaggerDoc(
+                //     "OpenAPISpecification",
+                //     new OpenApiInfo()
+                //     {
+                //         Title = "Onion Architecture WebAPI",
+                //         Version = "1",
+                //         Description = "Through this API you can access customer details",
+                //         Contact = new OpenApiContact()
+                //         {
+                //             Email = "luis.espinoza@facware.com",
+                //             Name = "Luis Espinoza",
+                //             Url = new Uri("https://facware.com/")
+                //         },
+                //         License = new OpenApiLicense()
+                //         {
+                //             Name = "MIT License",
+                //             Url = new Uri("https://opensource.org/licenses/MIT")
+                //         }
+                //     });
 
-                setupAction.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-                {
-                    Type = SecuritySchemeType.Http,
-                    Scheme = "bearer",
-                    BearerFormat = "JWT",
-                    Description = $"Input your Bearer token in this format - Bearer token to access this API",
-                });
-                setupAction.AddSecurityRequirement(new OpenApiSecurityRequirement
-                {
-                    {
-                        new OpenApiSecurityScheme
-                        {
-                            Reference = new OpenApiReference
-                            {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = "Bearer",
-                            },
-                        }, new List<string>()
-                    },
-                });
+                // setupAction.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                // {
+                //     Type = SecuritySchemeType.Http,
+                //     Scheme = "bearer",
+                //     BearerFormat = "JWT",
+                //     Description = $"Input your Bearer token in this format - Bearer token to access this API",
+                // });
+                // setupAction.AddSecurityRequirement(new OpenApiSecurityRequirement
+                // {
+                //     {
+                //         new OpenApiSecurityScheme
+                //         {
+                //             Reference = new OpenApiReference
+                //             {
+                //                 Type = ReferenceType.SecurityScheme,
+                //                 Id = "Bearer",
+                //             },
+                //         }, new List<string>()
+                //     },
+                // });
 
-                var xmlCommentsFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlCommentsFullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentsFile);
+                // var xmlCommentsFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                // var xmlCommentsFullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentsFile);
                 setupAction.IncludeXmlComments(xmlCommentsFullPath);
 
             });
