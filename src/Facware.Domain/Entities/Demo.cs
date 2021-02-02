@@ -1,6 +1,6 @@
 namespace Facware.Domain.Entities
 {
-    public class DemoModel : BaseEntityFull
+    public class Demo : BaseEntityFull
     {
         public string Name { get; set; }
     }

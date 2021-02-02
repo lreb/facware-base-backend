@@ -9,7 +9,12 @@ namespace Facware.Domain
         public int Id { get; set; }
     }
 
-    public class BaseEntityAudit : BaseEntity
+    public class BaseEntitySoft: BaseEntity
+    {
+        public bool Active { get; set; }
+    }
+
+    public class BaseEntityFull : BaseEntitySoft
     {
         public DateTime CreatedOn { get; set; }
         public int CreatedBy { get; set; }
