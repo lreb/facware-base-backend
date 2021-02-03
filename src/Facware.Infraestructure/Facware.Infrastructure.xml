@@ -82,7 +82,7 @@
             </summary>
             <seealso cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/>
         </member>
-        <member name="M:Facware.Infrastructure.Extension.Database.PostgreSQLExtension.UsePostgreSqlServer(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String)">
+        <member name="M:Facware.Infrastructure.Extension.Database.PostgreSQLExtension.UsePostgreSqlServer(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration,Microsoft.Extensions.Configuration.IConfigurationRoot)">
             <summary>
             Set up the Service PostgreSQL DB Context
             </summary>

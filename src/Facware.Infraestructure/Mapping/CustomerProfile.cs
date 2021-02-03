@@ -8,10 +8,10 @@ namespace Facware.Infrastructure.Mapping
     {
         public CustomerProfile()
         {
-            CreateMap<CustomerModel, Customer>()
-                .ForMember(dest => dest.Id,
-                        opt => opt.MapFrom(src => src.CustomerId))
-                .ReverseMap();
+            // CreateMap<CustomerModel, Customer>()
+            //     .ForMember(dest => dest.Id,
+            //             opt => opt.MapFrom(src => src.CustomerId))
+            //     .ReverseMap();
         }
     }
 }

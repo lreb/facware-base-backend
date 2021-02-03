@@ -1,4 +1,6 @@
+using Facware.Persistence;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Facware.Infrastructure.Extension.Database
@@ -14,13 +16,19 @@ namespace Facware.Infrastructure.Extension.Database
         /// </summary>
         /// <param name="serviceCollection">The <see cref="IServiceCollection"/></param>
         /// <param name="applicationConfigurationConnectionString">The data migration connection string</param>
-        public static void UsePostgreSqlServer(this IServiceCollection serviceCollection, string applicationConfigurationConnectionString)
+        public static void UsePostgreSqlServer(this IServiceCollection serviceCollection, //string applicationConfigurationConnectionString
+        IConfiguration configuration, IConfigurationRoot configRoot)
         {
           // https://www.npgsql.org/efcore/api/Microsoft.Extensions.DependencyInjection.NpgsqlServiceCollectionExtensions.html#Microsoft_Extensions_DependencyInjection_NpgsqlServiceCollectionExtensions_AddEntityFrameworkNpgsql_IServiceCollection_
           // https://www.npgsql.org/efcore/index.html#additional-configuration-for-aspnet-core-applications
 
           // TODO: use your context
           //serviceCollection.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(applicationConfigurationConnectionString));
+
+          serviceCollection.AddDbContext<ApplicationDbContext>(options =>
+                   //options.UseNpgsql(configuration.GetConnectionString("PostgreSqlConnection") ?? configRoot["ConnectionStrings:PostgreSqlConnection"]
+                options.UseNpgsql("Server=127.0.0.1;Port=5432;Database=facware;User Id=postgres;Password=postgres;"
+                , b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
         }
 
     }

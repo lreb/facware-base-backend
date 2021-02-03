@@ -17,6 +17,7 @@ using System;
 using System.Net;
 using System.IO;
 using System.Reflection;
+using Facware.Infrastructure.Extension.Database;
 
 namespace Facware
 {
@@ -38,7 +39,8 @@ namespace Facware
         {
             services.AddController();
 
-            services.AddDbContext(Configuration, configRoot);
+            //services.AddDbContext(Configuration, configRoot);
+            services.UsePostgreSqlServer(Configuration, configRoot);
 
             services.AddIdentityService(Configuration);
 
