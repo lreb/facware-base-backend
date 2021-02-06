@@ -42,7 +42,7 @@ namespace Facware
             //services.AddDbContext(Configuration, configRoot);
             services.UsePostgreSqlServer(Configuration, configRoot);
 
-            services.AddIdentityService(Configuration);
+            // services.AddIdentityService(Configuration);
 
             services.AddAutoMapper();
 

@@ -87,7 +87,8 @@
             Set up the Service PostgreSQL DB Context
             </summary>
             <param name="serviceCollection">The <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/></param>
-            <param name="applicationConfigurationConnectionString">The data migration connection string</param>
+            <param name="configuration">The data migration connection string <see cref="T:Microsoft.Extensions.Configuration.IConfiguration"/></param>
+            <param name="configRoot">The data migration connection string <see cref="T:Microsoft.Extensions.Configuration.IConfigurationRoot"/></param>
         </member>
         <member name="T:Facware.Infrastructure.Extension.DependencyInjection.DependencyInyectionExtension">
             <summary>

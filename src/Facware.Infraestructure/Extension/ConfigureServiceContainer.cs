@@ -46,8 +46,8 @@ namespace Facware.Infrastructure.Extension
         }
         public static void AddTransientServices(this IServiceCollection serviceCollection)
         {
-            serviceCollection.AddTransient<IDateTimeService, DateTimeService>();
-            serviceCollection.AddTransient<IAccountService, AccountService>();
+            //serviceCollection.AddTransient<IDateTimeService, DateTimeService>();
+            //serviceCollection.AddTransient<IAccountService, AccountService>();
         }
 
 

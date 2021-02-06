@@ -15,7 +15,8 @@ namespace Facware.Infrastructure.Extension.Database
         /// Set up the Service PostgreSQL DB Context
         /// </summary>
         /// <param name="serviceCollection">The <see cref="IServiceCollection"/></param>
-        /// <param name="applicationConfigurationConnectionString">The data migration connection string</param>
+        /// <param name="configuration">The data migration connection string <see cref="IConfiguration"/></param>
+        /// <param name="configRoot">The data migration connection string <see cref="IConfigurationRoot"/></param>
         public static void UsePostgreSqlServer(this IServiceCollection serviceCollection, //string applicationConfigurationConnectionString
         IConfiguration configuration, IConfigurationRoot configRoot)
         {

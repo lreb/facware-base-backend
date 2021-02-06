@@ -1,4 +1,5 @@
 ﻿using Facware.Domain.Entities;
+using Facware.Persistence.FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
@@ -26,6 +27,8 @@ namespace Facware.Persistence
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // modelBuilder.Entity<OrderDetail>().HasKey(o => new { o.OrderId, o.ProductId });
+            modelBuilder.DemoMapping();
+            
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

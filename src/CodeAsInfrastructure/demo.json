@@ -1,0 +1,28 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "resourceName": {
+            "type": "string",
+            "defaultValue": "resource1",
+            "allowedValues": [ "resource1", "resource2" ],
+            "metadata": {
+                "description": "resource name"
+            }
+        },
+        "rgLocation": {
+        "type": "string",
+        "defaultValue": "Southeast Asia"
+        },
+        "rgName": {
+        "type": "string",
+        "defaultValue": "myResourceGroup"
+        }
+    },
+    "functions": [],
+    "variables": {},
+    "resources": [
+        
+    ],
+    "outputs": {}
+}
